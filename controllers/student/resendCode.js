@@ -46,9 +46,9 @@ const resendCode = async (req, res) => {
             mailPassword: process.env.SYSTEM_PASS_NODEMAILER,
         };
         const content = {
-            subject: "Email Verification",
-            title: "Chance Portal Platform",
-            message: `Your code is ${generatedCode}. Note that the code is only valid for 24 hours.`,
+            subject: "تأكيد البريد الإلكتروني",
+            title: "منصة الفرص",
+            message: `الكود الخاص بك هو ${generatedCode}. لاحظ أن الكود صالح فقط لمدة ساعة واحدة `
         };
 
         // Send the code to the student's email

@@ -7,6 +7,7 @@ const bcrypt = require("bcryptjs");
 // Import Models
 const Student = require('../../models/Student');
 const Code = require('../../models/Code');
+const Helper = require("../../models/Helper");
 
 // Import Utilities
 const sendResponse = require('../../utils/sendResponse');
@@ -21,12 +22,38 @@ const saudiCities = ["الرياض", "جدة", "مكة", "المدينة الم�
 const studentSignup = async (req, res) => {
     try {
         // Extract student details from the request body
-        const { fullname, email, phone, password, nationality, interests, EnglishStandard, BrainStandard } = req.body;
+        const { first_name, last_name, email, phone, password, applicantGender, DOB, applicantEdu, nationality, saudiresiding, tookEnglishTest, tookBrainTest, interests, Subinterests } = req.body;
+
+        var EnglishStandard = req.body.EnglishStandard;
+        var BrainStandard = req.body.BrainStandard;
+
+        const helper = await Helper.findById(process.env.HELPER_ID);
+
+        if (!helper.applicantEdus.includes(applicantEdu)) {
+            return sendResponse(
+                res,
+                400,
+                "يجب أن يكون المرحلة التعليمية صحيحة"
+            );
+        }
+
+
+        
+        if (!["ذكر", "أنثى"].includes(applicantGender)) {
+            return sendResponse(
+                res,
+                400,
+                "يجب أن يكون النوع صحيح"
+            );
+        }
+
+
+
         let saudiCity = req.body.saudiCity;
 
        
 
-        if (nationality === "سعودي") {
+        if (saudiresiding === true) {
             if (!saudiCities.includes(saudiCity))
                 return sendResponse(
                     res,
@@ -38,9 +65,35 @@ const studentSignup = async (req, res) => {
             saudiCity = "";
         }
 
+        
+        if (tookEnglishTest === false) {
+            EnglishStandard = { IELTSDegree: '', TOFELDegree: '', TOEICDegree: '', DUOLINGODegree: '', stepDegree: '', CEFRDegree: ''};
+        }
+
+        if (tookBrainTest === false) {
+            BrainStandard = { Sat: '', Qudrat: '',  GAT: '', act: '', Talent: '', AchievementTest: '', SAAT: '' };
+        }
+
+
+
+        const isSubset_interests = interests.every(element => helper.chanceCategories.includes(element));
+        if(!isSubset_interests) 
+            return sendResponse(
+                res,
+                400,
+                "خطأ في قيم التصنيفات الرئيسية"
+            );
+
+        const isSubset_Subinterests = Subinterests.every(element => helper.chanceSubcategories.includes(element));
+        if(!isSubset_Subinterests) 
+            return sendResponse(
+                res,
+                400,
+                "خطأ في قيم التصنيفات الفرعية"
+            );
 
         // Create and save a new student
-        const student = await new Student({ fullname, email, phone, password, nationality, saudiCity, interests, EnglishStandard, BrainStandard }).save();
+        const student = await new Student({ first_name, last_name, email, phone, password, applicantGender, DOB, applicantEdu, nationality,  saudiresiding, saudiCity, tookEnglishTest, EnglishStandard, tookBrainTest, BrainStandard, interests, Subinterests }).save();
 
         // Generate a random verification code (5 digits)
         const generatedCode = Math.floor(Math.random() * 90000) + 10000;

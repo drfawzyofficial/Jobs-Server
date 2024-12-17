@@ -26,7 +26,9 @@ const BrainStandardSchema = new Schema({
   Qudrat: { type: Number, min: 0, max: 100 },
   GAT: { type: Number, min: 0, max: 100 },
   act: { type: Number, min: 1, max: 36 },
-  Talent: { type: Number, min: 0, max: 2000 }
+  Talent: { type: Number, min: 0, max: 2000 },
+  AchievementTest: { type: Number, min: 0, max: 100 },
+  SAAT: { type: Number, min: 0, max: 100 },
 }, { _id: false });
 
 
@@ -34,9 +36,15 @@ const BrainStandardSchema = new Schema({
 // Define Student Schema
 const studentSchema = new Schema(
   {
-    fullname: {
+    first_name: {
       type: String,
-      required: [true, "حقل الاسم اجباري"],
+      required: [true, "حقل الاسم الأول اجباري"],
+      minlength: 6,
+      trim: true,
+    },
+    last_name: {
+      type: String,
+      required: [true, "حقل الاسم الثاني إجباري"],
       minlength: 6,
       trim: true,
     },
@@ -98,21 +106,42 @@ const studentSchema = new Schema(
         message: '{VALUE} ليست جنسية صالحة'
       }
     },
+    saudiresiding: {
+      type: Boolean,
+      required: [true, "حقل تحديد الإقامة إجباري"],
+    },
     saudiCity: {
       type: String,
       enum: saudiCities, // Only valid Saudi cities are allowed
       validate: {
         validator: function(value) {
-          // Only validate if nationality is 'سعودي'
-          if (this.nationality === 'سعودي') {
+          if (this.saudiresiding === true) {
             return value && saudiCities.includes(value); // Check that saudiCity is provided and is in the saudiCities array
           }
-          return true; // If nationality is not 'سعودي', no validation needed
+          return true; 
         },
-        message: 'المدينة مطلوبة إذا كانت الجنسية سعودية ويجب أن تكون من مدن السعودية.'
+        message: 'يجب أن تكون المدينة صحيحة'
       }
     },
+    tookEnglishTest: {
+      type: Boolean,
+      required: [true, "حقل تحديد اختبار اللغة الإنجليزية إجباري"],
+    },
+    tookBrainTest: {
+      type: Boolean,
+      required: [true, "حقل تحديد اختبار القدرات العقلية إجباري"],
+    },
     interests: {
+      type: [String],
+      required: [true, 'حقل الاهتمامات إجباري'],  
+      validate: {
+        validator: function (v) {
+          return v && v.length >= 3;
+        },
+        message: 'برجاء اختر 3 اهتمامات على الأقل'
+      }
+    },
+    Subinterests: {
       type: [String],
       required: [true, 'حقل الاهتمامات إجباري'],  
       validate: {
@@ -128,21 +157,21 @@ const studentSchema = new Schema(
       required: true,
       default: `${process.env.SERVER_URL}/uploads/avatars/avatar.png`,
     },
-    gender: {
+    applicantGender: {
       type: String,
+      required: [true, "applicantGender is required"],
       enum: {
-        values: ["ذكر", "أنثى"],
-        message: "القيمة المدخلة غير صحيحة",
+        values: ["أنثى", "ذكر", "كلاهما"],
+        message: "{VALUE} is not supported",
       },
-      trim: true,
-    },
-    applicantAge: {
+    }, 
+    DOB: {
       type: String,
       trim: true,
     },
-
     applicantEdu: {
       type: String,
+      required: [true, "applicantEdu is required"],
       trim: true,
     },
     EnglishStandard: EnglishStandardSchema,
@@ -150,17 +179,6 @@ const studentSchema = new Schema(
     dOB: {
       type: String,
       trim: true,
-    },
-    bio: {
-      type: String,
-      trim: true,
-      minLength: [50, "على الأقل يجب إدخال 50 حرف"],
-      maxLength: [150, "على الأكثر يجب إدخال 150 حرف"],
-    },
-    tags: {
-      type: [String],
-      trim: true,
-      required: true,
     },
     role: {
       type: String,
@@ -177,28 +195,6 @@ const studentSchema = new Schema(
   },
   { timestamps: true }
 );
-
-// Custom validation for EnglishStandard
-// EnglishStandardSchema.path('IELTSDegree').validate(function() {
-//   const values = Object.values(this.toObject());
-//   console.log(values);
-//   return values.some(val => val !== undefined && val !== null && val !== '');
-// }, 'At least one English standard score is required.');
-
-// Custom validator to ensure at least one field is filled in BrainStandard
-// BrainStandardSchema.path('Sat').validate(function() {
-//   const values = Object.values(this.toObject());
-//   return values.some(val => val !== undefined && val !== null && val !== '');
-// }, 'At least one brain standard score is required.');
-
-// Custom validator to ensure at least one field is filled in CurStandard
-// CurStandardSchema.path('SaudiCur').validate(function() {
-//   const values = Object.values(this.toObject());
-//   return values.some(val => val !== undefined && val !== null && val !== '');
-// }, 'At least one curriculum score is required.');
-
-
-
 
 // Pre-save middleware to hash the password before saving
 studentSchema.pre("save", async function (next) {

@@ -29,19 +29,19 @@ const chanceCreate = async (req, res) => {
 
         req.body.noOfClicks = 0;
         let chance = await new Chance(req.body).save();
-        const students = await Student.find({});
-        let filtered_students = [];
-        students.forEach((student) => {
-            if (student.tags.includes(req.body.chanceCategory)) {
-                filtered_students.push(student);
-            }
-        })
-        let mail = { mailService: process.env.SYSTEM_SERVICE_NODEMAILER, mailHost: process.env.SYSTEM_HOST_NODEMAILER, mailPort: Number(process.env.SYSTEM_PORT_NODEMAILER), mailAddress: process.env.SYSTEM_EMAIL_NODEMAILER, mailPassword: process.env.SYSTEM_PASS_NODEMAILER }
-        let content = { subject: "إشعار الفرصة", title: "منصة ا لوظائف", message: `:تم نشر الفرصة ${req.body.chanceName}` }
+        // const students = await Student.find({});
+        // let filtered_students = [];
+        // students.forEach((student) => {
+        //     if (student.tags.includes(req.body.chanceCategory)) {
+        //         filtered_students.push(student);
+        //     }
+        // })
+        // let mail = { mailService: process.env.SYSTEM_SERVICE_NODEMAILER, mailHost: process.env.SYSTEM_HOST_NODEMAILER, mailPort: Number(process.env.SYSTEM_PORT_NODEMAILER), mailAddress: process.env.SYSTEM_EMAIL_NODEMAILER, mailPassword: process.env.SYSTEM_PASS_NODEMAILER }
+        // let content = { subject: "إشعار الفرصة", title: "منصة ا لوظائف", message: `:تم نشر الفرصة ${req.body.chanceName}` }
 
-        filtered_students.forEach(async (student) => {
-            await sendEmail(mail, student, content);
-        })
+        // filtered_students.forEach(async (student) => {
+        //     await sendEmail(mail, student, content);
+        // })
         return sendResponse(res, 201, "تم إنشاء الفرصة بنجاح", chance);
     } catch (err) {
         return sendResponse(res, 500, err.message, "حدث خطأ في خادم السيرفر");

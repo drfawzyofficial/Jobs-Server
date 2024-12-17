@@ -50,9 +50,9 @@ module.exports = async (req, res, next) => {
 
         // Retrieve helper data and filter out invalid placeholders
         const helper = await Helper.findById({ _id: process.env.HELPER_ID });
-        const chanceCategories = helper.chanceCategories.filter(el => el !== "التصنيف الرئيسي");
-        const chanceSubcategories = helper.chanceSubcategories.filter(el => el !== "التصنيف الفرعي");
-        const applicantEdus = helper.applicantEdus.filter(el => el !== "المرحلة التعليمية");
+        const chanceCategories = helper.chanceCategories;
+        const chanceSubcategories = helper.chanceSubcategories;
+        const applicantEdus = helper.applicantEdus;
         const programStatusArr = ["حضوري", "عن بعد"];
         const IELTSDegrees = ["0", "0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5", "5.5", "6", "6.5", "7", "7.5", "8", "8.5", "9"]
         const CEFRDegrees = ["A1", "A2", "B1", "B2", "C1", "C2"];

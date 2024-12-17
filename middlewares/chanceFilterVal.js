@@ -19,7 +19,7 @@ module.exports = async (req, res, next) => {
 
         // Retrieve helper data
         const helper = await Helper.findById(process.env.HELPER_ID);
-        const { chanceCategories, chanceSubcategories, applicantNats, IELTSDegress, CEFRDegrees, applicantEdus, applicantAges } = helper;
+        const { chanceCategories, chanceSubcategories } = helper;
         const programStatusArr = ["حضوري", "عن بُعد", "حالة البرنامج"];
 
         // Validate chance name

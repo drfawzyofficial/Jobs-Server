@@ -134,9 +134,9 @@ const editProfile = async (req, res) => {
             };
             const user = { email: req.body.email };
             const content = {
-                subject: "Email Verification",
-                title: "Chance Portal Platform",
-                message: `Your code is ${generatedCode}. Note that the code is only valid for 24 hours.`,
+                subject: "تأكيد البريد الإلكتروني",
+                title: "منصة الفرص",
+                message: `الكود الخاص بك هو ${generatedCode}. لاحظ أن الكود صالح فقط لمدة ساعة واحدة `
             };
             await sendEmail(mail, user, content);
         }

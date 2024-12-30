@@ -22,7 +22,7 @@ const saudiCities = ["الرياض", "جدة", "مكة", "المدينة الم�
 const studentSignup = async (req, res) => {
     try {
         // Extract student details from the request body
-        const { first_name, last_name, email, phone, password, applicantGender, DOB, applicantEdu, nationality, saudiresiding, tookEnglishTest, tookBrainTest, interests, Subinterests } = req.body;
+        const { first_name, last_name, email, phone, password, applicantGender, DOB, applicantEdu, saudiresiding, tookEnglishTest, tookBrainTest, interests, Subinterests } = req.body;
 
         var EnglishStandard = req.body.EnglishStandard;
         var BrainStandard = req.body.BrainStandard;
@@ -43,7 +43,7 @@ const studentSignup = async (req, res) => {
             return sendResponse(
                 res,
                 400,
-                "يجب أن يكون النوع صحيح"
+                "يجب أن يكون الجنس صحيح"
             );
         }
 
@@ -93,7 +93,7 @@ const studentSignup = async (req, res) => {
             );
 
         // Create and save a new student
-        const student = await new Student({ first_name, last_name, email, phone, password, applicantGender, DOB, applicantEdu, nationality,  saudiresiding, saudiCity, tookEnglishTest, EnglishStandard, tookBrainTest, BrainStandard, interests, Subinterests }).save();
+        const student = await new Student({ first_name, last_name, email, phone, password, applicantGender, DOB, applicantEdu,  saudiresiding, saudiCity, tookEnglishTest, EnglishStandard, tookBrainTest, BrainStandard, interests, Subinterests }).save();
 
         // Generate a random verification code (5 digits)
         const generatedCode = Math.floor(Math.random() * 90000) + 10000;

@@ -20,16 +20,19 @@ module.exports = async (req, res, next) => {
         // Retrieve helper data
         const helper = await Helper.findById(process.env.HELPER_ID);
         const { chanceCategories, chanceSubcategories } = helper;
-        const programStatusArr = ["حضوري", "عن بُعد", "حالة البرنامج"];
+        chanceCategories.push("none");
+        chanceSubcategories.push("none");
+        const programStatusArr = ["حضوري", "عن بُعد", "none"];
+
 
         // Validate chance name
-        if (typeof data.chanceName === 'string') {
-            if (data.chanceName.trim().length < 6) {
-                errors["chanceName"] = ['اسم الفرصة لا يجب أن يقل عن 6 أحرف'];
-            }
-        } else {
-            errors["chanceName"] = ['حقل اسم الوظيفة يجب أن يكون اسمًا'];
-        }
+        // if (typeof data.chanceName === 'string') {
+        //     if (data.chanceName.trim().length < 6) {
+        //         errors["chanceName"] = ['اسم الفرصة لا يجب أن يقل عن 6 أحرف'];
+        //     }
+        // } else {
+        //     errors["chanceName"] = ['حقل اسم الوظيفة يجب أن يكون اسمًا'];
+        // }
 
         // Validate chance price
         // if (typeof data.chancePrice === 'string') {
@@ -61,7 +64,7 @@ module.exports = async (req, res, next) => {
 
         // Validate chanceCategory
         if (!chanceCategories.includes(data.chanceCategory)) {
-            errors["chanceCategory"] = ['يجب أن يكون التصنيف صحيحًا'];
+            errors["chanceCategory"] = ['يجب أن يكون التصنيف الرئيسي صحيحًا'];
         }
         
         // Validate chanceSubcategory

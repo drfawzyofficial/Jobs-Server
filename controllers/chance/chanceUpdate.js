@@ -18,6 +18,8 @@ const chanceUpdate = async (req, res) => {
         let chance = await Chance.findById({ _id: req.body._id });
         if (!chance)
             return sendResponse(res, 404, "Chance is not found");
+        const chanceRegStartDate = new Date(req.body.chanceRegStartDate);
+        const chanceRegEndDate = new Date(req.body.chanceRegEndDate);
         const chanceStartDate = new Date(req.body.chanceStartDate);
         const chanceEndDate = new Date(req.body.chanceEndDate);
         if (req.body.chanceImage) {
@@ -30,6 +32,8 @@ const chanceUpdate = async (req, res) => {
             req.body.chanceImage = chance.chanceImage;
         }
         req.body.noOfClicks = chance.noOfClicks;
+        req.body.chanceRegStartDate = moment(chanceRegStartDate).format('YYYY-MM-DD');
+        req.body.chanceRegEndDate = moment(chanceRegEndDate).format('YYYY-MM-DD');
         req.body.chanceStartDate = moment(chanceStartDate).format('YYYY-MM-DD');
         req.body.chanceEndDate = moment(chanceEndDate).format('YYYY-MM-DD');
         chance = await Chance.findByIdAndUpdate({ _id: req.body._id }, req.body, { new: true });

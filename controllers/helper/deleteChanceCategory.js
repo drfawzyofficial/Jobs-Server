@@ -12,9 +12,7 @@ const deleteChanceCategory = async (req, res) => {
     try {
         let chanceCategory = req.body.chanceCategory;
         let helper =  await Helper.findById({_id: process.env.HELPER_ID});
-        let chanceCategories = helper.chanceCategories.filter((el) => {
-            return el !== "التصنيف" 
-        });
+        let chanceCategories = helper.chanceCategories;
         if (typeof (chanceCategory) === 'string') {
             if (!chanceCategories.includes(chanceCategory)) {
                 return sendResponse(res, 400, "تصنيف الفرصة غير موجودة للحذف");

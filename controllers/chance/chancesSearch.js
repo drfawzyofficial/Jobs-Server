@@ -14,15 +14,13 @@ const sendResponse = require('../../utils/sendResponse');
 const chancesSearch = async (req, res) => {
     try {
         let filter = { };
-        const { chanceName, programStatus, chanceCategory, chanceSubcategory } = req.body;
+        const { programStatus, chanceCategory, chanceSubcategory } = req.body;
 
-        if(chanceName !== "")
-            filter["chanceName"] = chanceName
-        if(programStatus.trim() !== "حالة البرنامج")
+        if(programStatus.trim() !== "none")
             filter["programStatus"] = programStatus
-        if(chanceCategory!== "التصنيف الرئيسي")
+        if(chanceCategory!== "none")
             filter["chanceCategory"] = chanceCategory
-        if(chanceSubcategory!== "التصنيف الفرعي")
+        if(chanceSubcategory!== "none")
             filter["chanceSubcategory"] = chanceSubcategory
         
         let chances = await Chance.find(filter);

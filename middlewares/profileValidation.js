@@ -18,7 +18,7 @@ const profileValidation = async (req, res, next) => {
             "email": "required|string|email",
             "gender": "required|string|in:ذكر,أنثى",
             "applicantAge": "required|string",
-            "applicantNat": "required|string",
+            // "applicantNat": "required|string",
             "applicantEdu": "required|string",
             "dOB": "required|string",
             "bio": "string|min:50|max:150",

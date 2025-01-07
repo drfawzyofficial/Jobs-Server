@@ -29,7 +29,7 @@ const codeSchema = new Schema(
     expireAt: {
       type: Date,
       default: Date.now,
-      index: { expires: 3600000 }, // Auto-expire after 1 hour (3600000 ms)
+      index: { expires: 3600 }, // TTL index for 1 hour
     },
   }
 );

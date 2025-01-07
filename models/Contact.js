@@ -3,10 +3,16 @@ const mongoose = require('mongoose');
 
 // Define Contact Schema
 let contactSchema = new mongoose.Schema({
-    fullname: {
+    first_name: {
         type: String,
         required: [true, "حقل الاسم إجباري"], // Required field with custom error message
-        minlength: [6, 'يجب أن يتكون الاسم من 6 أحرف على الأقل'], // Minimum length of 6 characters
+        minlength: [2, 'يجب أن يتكون الاسم من 2 أحرف على الأقل'], // Minimum length of 6 characters
+        trim: true, // Remove leading and trailing spaces
+    },
+    last_name: {
+        type: String,
+        required: [true, "حقل الاسم إجباري"], // Required field with custom error message
+        minlength: [2, 'يجب أن يتكون الاسم من 2 أحرف على الأقل'], // Minimum length of 6 characters
         trim: true, // Remove leading and trailing spaces
     },
     email: {

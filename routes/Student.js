@@ -23,13 +23,13 @@ const {
     getReviews,
     chancesGet,
     chanceGet,
+    studentChanceReviewsGet
 } = require("../controllers/index");
 
 // Middlewares
 const {
     checkStudent,
     signupValidation,
-    contactVal,
     changePassVal,
     updateAvatar,
     profileValidation
@@ -41,7 +41,7 @@ router.post("/login", studentLogin);
 router.post("/password/forgot", forgotPassword);
 router.post("/password/reset", resetPassword);
 router.post("/password/reset/change", resetPasswordChange);
-router.post("/contact/create", contactVal, createContact);
+router.post("/contact/create", checkStudent, createContact);
 router.get("/logout", checkStudent, studentLogout);
 router.get("/getprofile", checkStudent, getStudentData);
 router.post("/editProfile", checkStudent, profileValidation, editProfile);

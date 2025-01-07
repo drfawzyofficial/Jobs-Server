@@ -13,7 +13,57 @@ const Helper = require("../../models/Helper");
 const sendResponse = require('../../utils/sendResponse');
 const sendEmail = require('../../utils/sendEmail');
 
-const saudiCities = ["الرياض", "جدة", "مكة", "المدينة المنورة", "الدمام", "الخبر", "الطائف", "بريدة", "الجبيل", "حفر الباطن", "الظهران", "ينبع", "أبها", "خميس مشيط", "القصيم", "القطيف", "نجران", "تبوك", "جازان", "عرعر", "سكاكا", "الخرج", "الباحة", "بيشة", "القنفذة", "الدوادمي", "رجال ألمع", "محايل عسير", "شرورة", "رابغ", "المجمعة", "بدر", "الرس", "عنيزة", "حائل", "وادي الدواسر", "صبيا", "العيص", "ضباء", "تيماء", "بدر الجنوب", "طريف", "الأفلاج", "الحوطة", "مرات", "رنية", "ليلى", "السليل", "تنومة", "بلجرشي", "المندق", "قلوة", "العلا", "ساجر", "البكيرية", "الزلفي", "دومة الجندل", "عفيف", "الحريق", "الدوادمي", "القريات", "الطريف", "تربة", "رأس تنورة", "الساحل الشرقي", "سدير", "ثادق"];
+const saudiCities = [
+    "الرياض",
+    "مكة المكرمة",
+    "جدة",
+    "المدينة المنورة",
+    "الدمام",
+    "الأحساء",
+    "القطيف",
+    "الخبر",
+    "الجبيل",
+    "الطائف",
+    "الدرعية",
+    "بريدة",
+    "عنيزة",
+    "الرس",
+    "الخرج",
+    "الدوادمي",
+    "المجمعة",
+    "شقراء",
+    "الأفلاج",
+    "حوطة بني تميم",
+    "الحريق",
+    "المزاحمية",
+    "ثادق",
+    "حريملاء",
+    "الدلم",
+    "القنفذة",
+    "رابغ",
+    "تربة",
+    "الخرمة",
+    "ينبع",
+    "العلا",
+    "البكيرية",
+    "البدائع",
+    "الخفجي",
+    "رأس تنورة",
+    "بقيق",
+    "أبها",
+    "خميس مشيط",
+    "تبوك",
+    "حائل",
+    "عرعر",
+    "جازان",
+    "الريث",
+    "ضمد",
+    "نجران",
+    "الباحة",
+    "بلجرشي",
+    "سكاكا",
+    "دومة الجندل"
+];
 
 /**
  * Method for student signup.
@@ -22,7 +72,7 @@ const saudiCities = ["الرياض", "جدة", "مكة", "المدينة الم�
 const studentSignup = async (req, res) => {
     try {
         // Extract student details from the request body
-        const { first_name, last_name, email, phone, password, applicantGender, DOB, applicantEdu, saudiresiding, tookEnglishTest, tookBrainTest, interests, Subinterests } = req.body;
+        const { first_name, last_name, email, phone, password, applicantGender, DOB, applicantEdu, saudinationality, saudiCity, tookEnglishTest, tookBrainTest, interests, Subinterests } = req.body;
 
         var EnglishStandard = req.body.EnglishStandard;
         var BrainStandard = req.body.BrainStandard;
@@ -49,22 +99,13 @@ const studentSignup = async (req, res) => {
 
 
 
-        let saudiCity = req.body.saudiCity;
-
-       
-
-        if (saudiresiding === true) {
-            if (!saudiCities.includes(saudiCity))
-                return sendResponse(
-                    res,
-                    400,
-                    "المدينة التي أدخلتها خاطئة"
-                );
-        }
-        else {
-            saudiCity = "";
-        }
-
+        if (!saudiCities.includes(saudiCity))
+            return sendResponse(
+                res,
+                400,
+                "المدينة التي أدخلتها خاطئة"
+            );
+      
         
         if (tookEnglishTest === false) {
             EnglishStandard = { IELTSDegree: '', TOFELDegree: '', TOEICDegree: '', DUOLINGODegree: '', stepDegree: '', CEFRDegree: ''};
@@ -93,7 +134,7 @@ const studentSignup = async (req, res) => {
             );
 
         // Create and save a new student
-        const student = await new Student({ first_name, last_name, email, phone, password, applicantGender, DOB, applicantEdu,  saudiresiding, saudiCity, tookEnglishTest, EnglishStandard, tookBrainTest, BrainStandard, interests, Subinterests }).save();
+        const student = await new Student({ first_name, last_name, email, phone, password, applicantGender, DOB, applicantEdu,  saudinationality, saudiCity, tookEnglishTest, EnglishStandard, tookBrainTest, BrainStandard, interests, Subinterests }).save();
 
         // Generate a random verification code (5 digits)
         const generatedCode = Math.floor(Math.random() * 90000) + 10000;

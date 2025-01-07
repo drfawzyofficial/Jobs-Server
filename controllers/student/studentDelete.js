@@ -3,6 +3,8 @@
 
 // Import Models
 const Student = require('../../models/Student');
+const Contact = require('../../models/Contact');
+const Review = require('../../models/Review');
 
 // Import Utilities
 const sendResponse = require('../../utils/sendResponse');
@@ -13,7 +15,9 @@ const sendResponse = require('../../utils/sendResponse');
  */
 const studentDelete = async (req, res) => {
     try {
-        // Delete the student using the ID from the request user
+        const student = await Student.findById(req.user._id);
+        await Review.deleteMany({ _studentID: req.user._id });
+        await Contact.findOneAndDelete({ email: student.email });
         await Student.findByIdAndDelete(req.user._id);
 
         // Send success response

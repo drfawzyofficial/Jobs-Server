@@ -10,8 +10,11 @@ const {
     getProfileData,
     getStatistics,
     getStudents,
-    studentRemove,
+    getContacts,
     studentMessage,
+    studentContactMessage,
+    studentRemove,
+    studentContactRemove,
     chanceCreate,
     chancesSearch,
     chanceUpdate,
@@ -35,12 +38,15 @@ router.get("/getadmins", checkAdmin, getAdmins);
 router.delete("/admin/remove", checkAdmin, adminRemove);
 router.get("/statistics/get", getStatistics);
 router.get("/getstudents", checkAdmin, getStudents);
+router.get("/getcontacts", checkAdmin, getContacts);
 router.post("/chance/reviews/get", checkAdmin, adminChanceReviewsGet);
 router.post("/chance/review/accept", checkAdmin, adminChanceReviewAccept);
 router.delete("/chance/review/delete", checkAdmin, adminChanceReviewDelete);
 router.get("/chances/get", checkAdmin, adminChancesGet);
 router.delete("/student/remove", checkAdmin, studentRemove);
+router.delete("/student/contact/remove", checkAdmin, studentContactRemove);
 router.post("/student/message", checkAdmin, studentMessage);
+router.post("/student/contact/message", checkAdmin, studentContactMessage);
 router.post("/chance/create", checkAdmin, chanceValidation, chanceAnotherVal, chanceCreate);
 router.put("/chance/update", checkAdmin, chanceValidation, chanceAnotherVal, chanceUpdate);
 router.delete("/chance/remove", checkAdmin, chanceRemove);

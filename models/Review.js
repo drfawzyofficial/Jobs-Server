@@ -17,8 +17,9 @@ let reviewSchema = new mongoose.Schema({
         type: String,
         required: [true, 'الرسالة مطلوبة'], // Required field with custom error message
         minlength: [100, 'يجب أن تكون الرسالة 100 حرف على الأقل'], // Minimum length of 100 characters
-        maxlength: [500, 'لا يمكن أن تتجاوز الرسالة 500 حرف'] // Maximum length of 500 characters
+        maxlength: [300, 'لا يمكن أن تتجاوز الرسالة 300 حرف'] // Maximum length of 500 characters
     },
+    stars: { type: Number, min: 0, max: 5 },
     accepted: {
         type: Boolean,
         required: true,

@@ -17,7 +17,7 @@ const adminChanceReviewsGet = async (req, res) => {
         if(page_no < 0) {
             return sendResponse(res, 400, "رقم الصفحة لا يمكن أن يكون رقمًا سلبيًا");
         }
-        let chance = await Chance.findOne({ _id: req.body.chance_id });
+        let chance = await Chance.findById({ _id: req.body.chance_id });
         if(!chance)
             return sendResponse(res, 401, "الفرصة غير موجودة");
 

@@ -1,36 +1,53 @@
 // Import Models
+const Chance = require('../../models/Chance');
 const Review = require('../../models/Review');
-
 // Import Utilities
 const sendResponse = require('../../utils/sendResponse');
 
 // Route handler for creating a new review entry.
 const sendReview = async (req, res, next) => {
     try {
-        // Extract the email from the request body.
-        const comment = req.body.comment;
+        // Extract the comment and stars from the request body.
+        const { comment, stars } = req.body;
 
-        if(comment.trim().length === 0)
+
+        const chance = await Chance.findById({ _id: req.body._chanceID });
+
+        if(!chance)  return sendResponse(
+            res,
+            401,
+            "الفرصة غير موجودة"
+        );
+
+        if (typeof(comment) !== "string" || comment.trim().length < 100 || comment.trim().length > 300)
             return sendResponse(
-                res, 
-                400, 
-                "حقل التعليق يجب الأ يكون فارغًا"
+                res,
+                400,
+                "حقل التعليق يجب أن يتراوح بين 100 و500 حرف"
             );
-        
-        // Check if a review with the same email already exists in the database.
-        const existingReview = await Review.findOne({ _studentID: req.user._id, _chanceID: req.body.id });
+
+
+        if (typeof(stars) !== "number" || stars < 0 || stars > 5)
+            return sendResponse(
+                res,
+                400,
+                "حقل نجوم التقييم يجب أن يكون صحيحًا"
+            );
+
+        // Check if a review exists in the database.
+        const existingReview = await Review.findOne({ _studentID: req.user._id, _chanceID: req.body._chanceID });
 
         // If a review with the same email exists, return an error response.
         if (existingReview && existingReview.accepted === false) {
             return sendResponse(
-                res, 
-                400, 
+                res,
+                400,
                 "لقد قمت بإضافة تعليق سابقًا ومازال تحت قيد المراجعة"
             );
-        } else if(existingReview && existingReview.accepted === true) {
+        } else if (existingReview && existingReview.accepted === true) {
             return sendResponse(
-                res, 
-                400, 
+                res,
+                400,
                 "لقد قمت بإضافة تعليق سابقًا وتم قبوله من طرف المسئول"
             );
         }
@@ -38,13 +55,13 @@ const sendReview = async (req, res, next) => {
 
 
         // Create a new review with the provided data and save it to the database.
-        const review = await new Review({ _studentID: req.user._id, _chanceID: req.body.id, comment: comment}).save();
+        const review = await new Review({ _studentID: req.user._id, _chanceID: req.body._chanceID, comment: comment, stars: stars }).save();
 
         // Send a success response indicating the review has been created.
         return sendResponse(
-            res, 
-            200, 
-            'تم إرسال تعليقك إلى المسئول وهو بإنتظار الموافقة', 
+            res,
+            200,
+            'تم إرسال تعليقك إلى المسئول وهو بإنتظار الموافقة',
             review
         );
     } catch (err) {

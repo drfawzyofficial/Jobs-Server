@@ -15,7 +15,7 @@ const sendReview = async (req, res, next) => {
 
         if(!chance)  return sendResponse(
             res,
-            401,
+            404,
             "الفرصة غير موجودة"
         );
 

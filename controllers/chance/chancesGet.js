@@ -65,9 +65,16 @@ const chancesGet = async (req, res) => {
         applicantEdus.push("none");
         chanceCategories.push("none");
         chanceCategories.push("more_relevant");
+        let page_no =parseInt(req.query.page_no);
         let chance_case = req.query.chance_case;
         let edu_case = req.query.edu_case;
         let interest_case = req.query.interest_case;
+        if(!page_no) {
+            return sendResponse(res, 400, "رقم الصفحة إجباري");
+        }
+        if(page_no < 0) {
+            return sendResponse(res, 400, "رقم الصفحة لا يمكن أن يكون رقمًا سلبيًا");
+        }
         if (!chance_cases.includes(chance_case))
             return sendResponse(res, 400, "حالة الفرصة يجب أن تكون قيمة صحيحة");
         if (!applicantEdus.includes(edu_case))
@@ -75,8 +82,8 @@ const chancesGet = async (req, res) => {
         if (!chanceCategories.includes(interest_case))
             return sendResponse(res, 400, "التصنيف الأساسي يجب أن يكون قيمة صحيحة");
         let search_query = await search(chance_case, edu_case, interest_case, student.interests);
-        const chancesCount = await Chance.find(search_query).count();
-        const chances = await Chance.find(search_query).limit(30).exec()
+        const chancesCount = Math.ceil(await Chance.find(search_query).count() / 8);
+        const chances = await Chance.find(search_query).limit(8).skip(8 * (page_no - 1)).exec()
         return sendResponse(res, 200, "تم استعادة جميع الوظائف بنجاح", { chances, chancesCount });
     } catch (err) {
         console.log(err.message);

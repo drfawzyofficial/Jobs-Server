@@ -5,6 +5,7 @@
 const Student = require('../../models/Student');
 const Contact = require('../../models/Contact');
 const Review = require('../../models/Review');
+const Code = require('../../models/Code');
 
 // Import Utilities
 const sendResponse = require('../../utils/sendResponse');
@@ -18,10 +19,11 @@ const studentDelete = async (req, res) => {
         const student = await Student.findById(req.user._id);
         await Review.deleteMany({ _studentID: req.user._id });
         await Contact.findOneAndDelete({ email: student.email });
+        await Code.deleteMany({ _studentID: req.user._id });
         await Student.findByIdAndDelete(req.user._id);
 
         // Send success response
-        return sendResponse(res, 200, "تم حذف الطالب بنجاح");
+        return sendResponse(res, 200, "تم حذف حسابك بنجاح");
     } catch (err) {
         // Log the error for debugging and send error response
         console.error("Error in studentDelete:", err.message);

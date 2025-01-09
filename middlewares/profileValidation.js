@@ -14,28 +14,19 @@ const profileValidation = async (req, res, next) => {
     try {
         // Define validation rules for profile fields
         const validationRule = {
-            "fullname": "required|string|min:6",
+            "first_name": "required|string|min:3",
+            "last_name": "required|string|min:3",
             "email": "required|string|email",
-            "gender": "required|string|in:ذكر,أنثى",
-            "applicantAge": "required|string",
-            // "applicantNat": "required|string",
+            "phone": "required|string|min:10|max:15",
+            "applicantGender": "required|string|in:ذكر,أنثى",
             "applicantEdu": "required|string",
-            "dOB": "required|string",
-            "bio": "string|min:50|max:150",
-            "tags": "required|array",
-            "EnglishStandard.IELTSDegree": "string",
-            "EnglishStandard.TOFELDegree": "string",
-            "EnglishStandard.TOEICDegree": "string",
-            "EnglishStandard.DUOLINGODegree": "string",
-            "EnglishStandard.stepDegree": "string",
-            "EnglishStandard.CEFRDegree": "string",
-            "BrainStandard.Sat": "string",
-            "BrainStandard.Qudrat": "string",
-            "BrainStandard.GAT": "string",
-            "BrainStandard.act": "string",
-            "BrainStandard.Talent": "string",
-            "CurStandard.SaudiCur": "string",
-            "CurStandard.BritishCur": "string",
+            "DOB": "required|date", 
+            "applicantEdu": "required|string",
+            "saudinationality": "required|boolean",
+            "tookEnglishTest": "required|boolean",
+            "tookBrainTest": "required|boolean",
+            "interests": "required|array|min:3",
+            "Subinterests": "required|array|min:3"
         };
 
         // Perform validation using the provided rules

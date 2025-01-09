@@ -25,15 +25,13 @@ const validateMessage = (message) => {
 // Route handler for creating a new contact entry.
 const createContact = async (req, res, next) => {
     try {
-        const student = await Student.findById(req.user._id);
-        const { first_name, last_name, email, phone } = student;
         const message = req.body.message;
         const messageValidate = validateMessage(message);
         if (!messageValidate.isValid) {
             return sendResponse(res, 400, messageValidate.message);
         }
         // Check if a contact with the same email already exists in the database.
-        const existingContact = await Contact.findOne({ email });
+        const existingContact = await Contact.findOne({ _studentID: req.user._id });
 
         // If a contact with the same email exists, return an error response.
         if (existingContact) {
@@ -45,7 +43,7 @@ const createContact = async (req, res, next) => {
         }
 
         // Create a new contact with the provided data and save it to the database.
-        const contact = await new Contact({ first_name, last_name, email, phone, message }).save();
+        const contact = await new Contact({ _studentID: req.user._id, message: message }).save();
 
         // Send a success response indicating the contact has been created.
         return sendResponse(

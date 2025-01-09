@@ -21,7 +21,8 @@ const getContacts = async (req, res) => {
         }
         const contactsCount = Math.ceil(await Contact.find({ }).count() / 10)
         const contacts =  await Contact.find({ }).limit(10).skip(10 * (page_no - 1)).exec()
-        return sendResponse(res, 200, "تم استرجاع بيانات الطلاب بنجاح", {contacts, contactsCount});
+        const populatedContacts = await Contact.populate(contacts, { path: '_studentID' }); 
+        return sendResponse(res, 200, "تم استرجاع بيانات الطلاب بنجاح", {populatedContacts, contactsCount});
     } catch (err) {
         return sendResponse(res, 500, err.message, "حدث خطأ في خادم السيرفر");
     }

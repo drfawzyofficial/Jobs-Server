@@ -21,7 +21,7 @@ const signupValidation = async (req, res, next) => {
             "email": "required|string|email|exist:Student,email",
             "phone": "required|string|min:10|max:15|exist:Student,phone",
             "password": "required|string|min:6|strict|confirmed",
-            "applicantGender": "required|string",
+            "applicantGender": "required|string|in:ذكر,أنثى",
             "DOB": "required|date", 
             "applicantEdu": "required|string",
             "saudinationality": "required|boolean",

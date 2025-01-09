@@ -18,9 +18,11 @@ const getWishlists = async (req, res) => {
         if(page_no < 0) {
             return sendResponse(res, 400, "رقم الصفحة لا يمكن أن يكون رقمًا سلبيًا");
         }
-        const wishlistsCount = Math.ceil(await Chance.find({ _id: { $in: wishlists } }).count() / 8)
         const wishlistsDB = await Chance.find({ _id: { $in: wishlists } }).limit(8).skip(8 * (page_no - 1)).exec();
-        const result = { wishlists: wishlistsDB, wishlistsCount: wishlistsCount }
+        const wishlistsPagesCount = Math.ceil(await Chance.find({ _id: { $in: wishlists } }).count() / 8)
+        const wishlistsCount = await Chance.find({ _id: { $in: wishlists } }).count();
+
+        const result = { wishlists: wishlistsDB, wishlistsPagesCount: wishlistsPagesCount,  wishlistsCount: wishlistsCount, }
         return sendResponse(res, 200, "تم استرجاع المفضلات بنجاح بنجاح", result);
     } catch (err) {
         console.log(err.message);

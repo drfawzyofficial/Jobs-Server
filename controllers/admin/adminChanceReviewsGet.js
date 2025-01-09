@@ -24,7 +24,8 @@ const adminChanceReviewsGet = async (req, res) => {
 
         const reviewsCount = Math.ceil(await Review.find({ _chanceID: req.body.chance_id, accepted: false  }).count() / 8)
         const reviews =  await Review.find({ _chanceID: req.body.chance_id, accepted: false }).limit(8).skip(8 * (page_no - 1)).exec()
-        return sendResponse(res, 200, "تم استعادة جميع الفرص بنجاح", {reviewsCount, reviews});
+        const populatedReviews = await Review.populate(reviews, { path: '_studentID' }); 
+        return sendResponse(res, 200, "تم استعادة جميع الفرص بنجاح", {reviewsCount, reviews: populatedReviews});
     } catch (err) {
         return sendResponse(res, 500, err.message, "حدث خطأ في خادم السيرفر");
     }

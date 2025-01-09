@@ -89,13 +89,13 @@ const studentSchema = new Schema(
     first_name: {
       type: String,
       required: [true, "حقل الاسم الأول اجباري"],
-      minlength: 6,
+      minlength: 3,
       trim: true,
     },
     last_name: {
       type: String,
       required: [true, "حقل الاسم الثاني إجباري"],
-      minlength: 6,
+      minlength: 3,
       trim: true,
     },
     email: {

@@ -10,6 +10,7 @@ const {
     deleteChanceCategory,
     deletechanceSubcategory,
     deleteApplicantEdu,
+    helperStatistics
 } = require("../controllers/index");
 
 // Middlewares
@@ -21,6 +22,7 @@ router.delete("/deletechanceCategory", checkAdmin, deleteChanceCategory);
 router.delete("/deletechanceSubcategory", checkAdmin, deletechanceSubcategory);
 router.delete("/deleteApplicantEdu", checkAdmin, deleteApplicantEdu);
 router.get("/get", helperGet);
+router.get("/statistics/get", helperStatistics);
 
 // Export Router
 module.exports = router;

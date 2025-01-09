@@ -23,7 +23,11 @@ const BrainStandardSchema = new Schema({
   AchievementTest: { type: Number, min: 0, max: 100 },
   SAAT: { type: Number, min: 0, max: 100 },
 }, { _id: false });
-
+const CurStandardSchema = new Schema({
+  SaudiCur: { type: Number, min: 0, max: 100 },
+  BritishCur: { type: Number, min: 0, max: 100 },
+  AmericanDiploma: { type: Number, min: 0, max: 4 },
+}, { _id: false });
 // Define Chance Schema
 const chanceSchema = new Schema(
   {
@@ -41,7 +45,7 @@ const chanceSchema = new Schema(
       type: String,
       trim: true,
     },
-    provider: { 
+    provider: {
       type: String,
       required: [true, "provider is required"],
       minlength: 6,
@@ -161,10 +165,7 @@ const chanceSchema = new Schema(
     },
     EnglishStandard: EnglishStandardSchema,
     BrainStandard: BrainStandardSchema,
-    CurStandard: {
-      type: Object,
-      required: [true, "CurStandard is required"],
-    },
+    CurStandard: CurStandardSchema,
     noOfClicks: {
       type: Number,
       default: 0,

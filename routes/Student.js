@@ -23,7 +23,8 @@ const {
     getReviews,
     chancesGet,
     chanceGet,
-    studentChanceReviewsGet
+    studentGetStatistics,
+    IncrementChance
 } = require("../controllers/index");
 
 // Middlewares
@@ -54,6 +55,8 @@ router.post("/review/send", checkStudent, sendReview);
 router.post("/reviews/get", checkStudent, getReviews);
 router.get("/chances/get", checkStudent, chancesGet);
 router.get("/chance/get", checkStudent, chanceGet);
+router.get("/statistics/get", checkStudent, studentGetStatistics);
+router.post("/chance/increment", checkStudent, IncrementChance);
 // router.post("/update-avatar", checkStudent, updateAvatar, uploadImage);
 
 // Export Router

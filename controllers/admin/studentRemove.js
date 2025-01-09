@@ -3,6 +3,9 @@
 
 // Import Models
 const Student = require('../../models/Student');
+const Contact = require('../../models/Contact');
+const Review = require('../../models/Review');
+const Code = require('../../models/Code');
 
 // Import Utils 
 const sendResponse = require('../../utils/sendResponse');

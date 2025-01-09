@@ -1,31 +1,6 @@
 // JS Strict Mode
 "use strict";
 
-// Variables
-// const applicantNats = [
-//     'أفغاني', 'ألباني', 'جزائري', 'أمريكي', 'أندوري', 'أنغولي', 'أنتيغوي', 'أرجنتيني',
-//     'أرميني', 'أسترالي', 'نمساوي', 'أذربيجاني', 'باهاماسي', 'بحريني', 'بنغلاديشي',
-//     'باربادوسي', 'بيلاروسي', 'بلجيكي', 'بليزي', 'بنين', 'بوتاني', 'بوليفي', 'بوسني',
-//     'برازيلي', 'بريطاني', 'بلغاري', 'بوركيني', 'بورمي', 'بوروندي', 'كمبودي', 'كاميروني',
-//     'كندي', 'كاب فيردي', 'تشادي', 'تشيلي', 'صيني', 'كولومبي', 'كوموري', 'كوستاريكي',
-//     'كرواتي', 'كوبي', 'قبرصي', 'تشيكي', 'كونغولي', 'دنماركي', 'جيبوتي', 'دومينيكي',
-//     'إكوادوري', 'مصري', 'إماراتي', 'غيني استوائي', 'إريتري', 'إستوني', 'إثيوبي', 'فنلندي',
-//     'فرنسي', 'غابوني', 'غامبي', 'جورجي', 'ألماني', 'غاني', 'يوناني', 'غرينادي', 'غواتيمالي',
-//     'غيني', 'غوياني', 'هايتي', 'هندوراسي', 'هنغاري', 'آيسلندي', 'هندي', 'إندونيسي', 'إيراني',
-//     'عراقي', 'إيرلندي', 'فلسطيني', 'إيطالي', 'جامايكي', 'ياباني', 'أردني', 'كازاخستاني',
-//     'كيني', 'كيريباتي', 'كوري', 'كويتي', 'قرغيزستاني', 'لاوسي', 'لاتفي', 'لبناني', 'ليبي',
-//     'ليتواني', 'لوكسمبورغي', 'مدغشقري', 'مالاوي', 'ماليزي', 'مالديفي', 'مالي', 'مالطي',
-//     'ماوريتاني', 'مكسيكي', 'مولدوفي', 'موناكوي', 'منغولي', 'مغربي', 'موزمبيقي', 'ناميبي',
-//     'نيبالي', 'هولندي', 'نيوزيلندي', 'نيجيري', 'نيكاراغوي', 'نيجيري', 'نرويجي', 'عماني',
-//     'باكستاني', 'بنمي', 'بابواني', 'باراغوي', 'بيروفي', 'فلبيني', 'بولندي', 'برتغالي',
-//     'قطري', 'روماني', 'روسي', 'رواندي', 'سانت لوسي', 'سلفادوري', 'ساموائي',
-//     'سنغالي', 'صربي', 'سيشلي', 'سنغافوري', 'سلوفاكي', 'سلوفيني', 'سومالي', 'جنوب أفريقي',
-//     'إسباني', 'سريلانكي', 'سوداني', 'سورينامي', 'سوازيلندي', 'سويدي', 'سويسري', 'سوري',
-//     'تايواني', 'طاجيكستاني', 'تنزاني', 'تايلاندي', 'توغولي', 'تونسي', 'تركي', 'تركماني',
-//     'توفالي', 'أوغندي', 'أوكراني', 'أوروغواي', 'أوزبكستاني', 'فانواتي', 'فنزويلي', 'فيتنامي',
-//     'يمني', 'زامبي', 'زيمبابوي'
-// ];
-
 const cities = [
     "الرياض",
     "مكة المكرمة",
@@ -118,7 +93,7 @@ module.exports = async (req, res, next) => {
         // Validate chance start and end dates
 
         if (!isValidDate(data.chanceRegStartDate) || !isValidDate(data.chanceRegEndDate) || !isValidDate(data.chanceStartDate) || !isValidDate(data.chanceEndDate)) {
-            errors["DOB"] = ["يجب أن يكون التاريخ صالح"];
+            errors["chanceDate"] = ["يجب أن يكون التاريخ صالح لبداية ونهاية تسجيل الفرصة وكذلك لبداية ونهاية دورة الفرصة"];
         }
         if (new Date(data.chanceRegStartDate) < new Date(moment(Date.now()).format('MM/DD/YYYY'))) {
             errors["chanceRegStartDate"] = ['لا يمكن أن يكون ميعاد بداية تسجيل الفرصة أقل من تاريخ اليوم'];
@@ -148,7 +123,7 @@ module.exports = async (req, res, next) => {
         // if (data.chanceImage && !/^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/.test(data.chanceImage)) {
         //     errors["chanceImage"] = ['ملف الصورة يجب أن يكون صحيحًا'];
         // }
-        
+
         // Validate chancePriority
         if (!["saudi", "all"].includes(data.chancePriority))
             errors["chancePriority"] = ['يجب أن يكون متطلب الشروط إحدى القيم: saudi أو all'];
@@ -190,71 +165,108 @@ module.exports = async (req, res, next) => {
 
         // EnglishStandard Object is mandatory 
         if (!data.EnglishStandard) {
-            return sendResponse(res, 400, "يجب أن يكون معيار اللغة الإنجليزية صحيحًا");
+            errors["EnglishStandard"] = ["يجب أن يكون معيار اللغة الإنجليزية صحيحًا"];
+        } else {
+
+            // Define the properties to check
+            const propertiesToCheck = ["IELTSDegree", "TOFELDegree", "TOEICDegree", "DUOLINGODegree", "stepDegree", "CEFRDegree"];
+
+            // Check if the object contains at least one of the properties
+            const hasProperty = propertiesToCheck.some(prop => EnglishStandard.hasOwnProperty(prop));
+
+            // Output the result
+            if (!hasProperty) {
+                errors["EnglishStandard"] = ['يجب أن يحتوى معيار اللغة الإنجليزية على إحدى خصائها'];
+            }
+
+            // Validate English standards
+            if (data.EnglishStandard.IELTSDegree && !IELTSDegrees.includes(data.EnglishStandard.IELTSDegree)) {
+                errors["IELTSDegree"] = ['يجب أن تكون درجة الأيلتس بين 0 و9'];
+            }
+            if (data.EnglishStandard.TOFELDegree && !inRange(data.EnglishStandard.TOFELDegree, 0, 120)) {
+                errors["TOFELDegree"] = ['يجب أن تكون درجة التويفل بين 0 و120'];
+            }
+            if (data.EnglishStandard.TOEICDegree && !inRange(data.EnglishStandard.TOEICDegree, 0, 990)) {
+                errors["TOEICDegree"] = ['يجب أن تكون درجة التويك بين 0 و990'];
+            }
+            if (data.EnglishStandard.DUOLINGODegree && !inRange(data.EnglishStandard.DUOLINGODegree, 0, 160)) {
+                errors["DUOLINGODegree"] = ['يجب أن تكون درجة الدولينجو بين 0 و160'];
+            }
+            if (data.EnglishStandard.stepDegree && !inRange(data.EnglishStandard.stepDegree, 0, 100)) {
+                errors["stepDegree"] = ['يجب أن تكون درجة الاستب بين 0 و100'];
+            }
+            if (data.EnglishStandard.CEFRDegree && !CEFRDegrees.includes(data.EnglishStandard.CEFRDegree)) {
+                errors["CEFRDegree"] = ['يجب أن يكون معيار السيفر صحيحًا'];
+            }
         }
-        // Validate English standards
-        console.log(data.EnglishStandard);
-        if (data.EnglishStandard.IELTSDegree && !IELTSDegrees.includes(data.EnglishStandard.IELTSDegree)) {
-            errors["IELTSDegree"] = ['يجب أن تكون درجة الأيلتس بين 0 و9'];
-        }
-        if (data.EnglishStandard.TOFELDegree && !inRange(data.EnglishStandard.TOFELDegree, 0, 120)) {
-            errors["TOFELDegree"] = ['يجب أن تكون درجة التويفل بين 0 و120'];
-        }
-        if (data.EnglishStandard.TOEICDegree && !inRange(data.EnglishStandard.TOEICDegree, 0, 990)) {
-            errors["TOEICDegree"] = ['يجب أن تكون درجة التويك بين 0 و990'];
-        }
-        if (data.EnglishStandard.DUOLINGODegree && !inRange(data.EnglishStandard.DUOLINGODegree, 0, 160)) {
-            errors["DUOLINGODegree"] = ['يجب أن تكون درجة الدولينجو بين 0 و160'];
-        }
-        if (data.EnglishStandard.stepDegree && !inRange(data.EnglishStandard.stepDegree, 0, 100)) {
-            errors["stepDegree"] = ['يجب أن تكون درجة الاستب بين 0 و100'];
-        }
-        if (data.EnglishStandard.CEFRDegree && !CEFRDegrees.includes(data.EnglishStandard.CEFRDegree)) {
-            errors["CEFRDegree"] = ['يجب أن يكون معيار السيفر صحيحًا'];
-        }
+
 
         if (!data.BrainStandard) {
-            return sendResponse(res, 400, "يجب أن يكون معيار القدرات العقلية صحيحًا");
+            errors["BrainStandard"] = ["يجب أن يكون معيار القدرات العقلية صحيحًا"];
+        } else {
+            // Define the properties to check
+            const propertiesToCheck = ["Sat", "Qudrat", "GAT", "act", "Talent", "AchievementTest", "SAAT"];
+
+            // Check if the object contains at least one of the properties
+            const hasProperty = propertiesToCheck.some(prop => BrainStandard.hasOwnProperty(prop));
+
+            // Output the result
+            if (!hasProperty) {
+                errors["BrainStandard"] = ['يجب أن يحتوى معيار القدرات العقلية على إحدى خصائها'];
+            }
+            // Validate Brain standards
+            if (data.BrainStandard.Sat && !inRange(data.BrainStandard.Sat, 0, 1600)) {
+                errors["Sat"] = ['يجب أن تكون درجة الـ Sat بين 0 و1600'];
+            }
+            if (data.BrainStandard.Qudrat && !inRange(data.BrainStandard.Qudrat, 0, 100)) {
+                errors["Qudrat"] = ['يجب أن تكون درجة الكودرات بين 0 و100'];
+            }
+            if (data.BrainStandard.GAT && !inRange(data.BrainStandard.GAT, 0, 100)) {
+                errors["GAT"] = ['يجب أن تكون درجة الجات بين 0 و100'];
+            }
+            if (data.BrainStandard.act && !inRange(data.BrainStandard.act, 0, 36)) {
+                errors["act"] = ['يجب أن تكون درجة الاكت بين 0 و36'];
+            }
+            if (data.BrainStandard.Talent && !inRange(data.BrainStandard.Talent, 0, 2000)) {
+                errors["Talent"] = ['يجب أن تكون درجة التالنت بين 0 و2000'];
+            }
+            if (data.BrainStandard.AchievementTest && !inRange(data.BrainStandard.AchievementTest, 0, 100)) {
+                errors["AchievementTest"] = ['يجب أن تكون درجة الاختبار التحصيلي بين 0 و100'];
+            }
+
+            if (data.BrainStandard.SAAT && !inRange(data.BrainStandard.SAAT, 0, 100)) {
+                errors["SAAT"] = ['يجب أن تكون درجة الـ SAAT بين 0 و100'];
+            }
         }
 
-        // Validate Brain standards
-        if (data.BrainStandard.Sat && !inRange(data.BrainStandard.Sat, 0, 1600)) {
-            errors["Sat"] = ['يجب أن تكون درجة الـ Sat بين 0 و1600'];
-        }
-        if (data.BrainStandard.Qudrat && !inRange(data.BrainStandard.Qudrat, 0, 100)) {
-            errors["Qudrat"] = ['يجب أن تكون درجة الكودرات بين 0 و100'];
-        }
-        if (data.BrainStandard.GAT && !inRange(data.BrainStandard.GAT, 0, 100)) {
-            errors["GAT"] = ['يجب أن تكون درجة الجات بين 0 و100'];
-        }
-        if (data.BrainStandard.act && !inRange(data.BrainStandard.act, 0, 36)) {
-            errors["act"] = ['يجب أن تكون درجة الاكت بين 0 و36'];
-        }
-        if (data.BrainStandard.Talent && !inRange(data.BrainStandard.Talent, 0, 2000)) {
-            errors["Talent"] = ['يجب أن تكون درجة التالنت بين 0 و2000'];
-        }
-        if (data.BrainStandard.AchievementTest && !inRange(data.BrainStandard.AchievementTest, 0, 100)) {
-            errors["AchievementTest"] = ['يجب أن تكون درجة الاختبار التحصيلي بين 0 و100'];
-        }
 
-        if (data.BrainStandard.SAAT && !inRange(data.BrainStandard.SAAT, 0, 100)) {
-            errors["SAAT"] = ['يجب أن تكون درجة الـ SAAT بين 0 و100'];
-        }
 
         if (!data.CurStandard) {
-            return sendResponse(res, 400, "يجب أن يكون معيار المنهج صحيحًا");
+            errors["CurStandard"] = ['يجب أن يكون معيار المنهج صحيحًا'];
+        } else {
+            // Define the properties to check
+            const propertiesToCheck = ["SaudiCur", "BritishCur", "AmericanDiploma"];
+
+            // Check if the object contains at least one of the properties
+            const hasProperty = propertiesToCheck.some(prop => CurStandard.hasOwnProperty(prop));
+
+            // Output the result
+            if (!hasProperty) {
+                errors["CurStandard"] = ['يجب أن يحتوى معيار المنهج على إحدى خصائها'];
+            }
+            // Validate Curriculum standards
+            if (data.CurStandard.SaudiCur && !inRange(data.CurStandard.SaudiCur, 0, 100)) {
+                errors["SaudiCur"] = ['يجب أن تكون درجة المنهج السعودي بين 0 و100'];
+            }
+            if (data.CurStandard.BritishCur && !inRange(data.CurStandard.BritishCur, 0, 100)) {
+                errors["BritishCur"] = ['يجب أن تكون درجة المنهج البريطاني بين 0 و100'];
+            }
+            if (data.CurStandard.AmericanDiploma && !inRange(data.CurStandard.AmericanDiploma, 0, 4)) {
+                errors["AmericanDiploma"] = ['يجب أن تكون درجة الدبلومة الأمريكية بين 0 و4'];
+            }
         }
 
-        // Validate Curriculum standards
-        if (data.CurStandard.SaudiCur && !inRange(data.CurStandard.SaudiCur, 0, 100)) {
-            errors["SaudiCur"] = ['يجب أن تكون درجة المنهج السعودي بين 0 و100'];
-        }
-        if (data.CurStandard.BritishCur && !inRange(data.CurStandard.BritishCur, 0, 100)) {
-            errors["BritishCur"] = ['يجب أن تكون درجة المنهج البريطاني بين 0 و100'];
-        }
-        if (data.CurStandard.AmericanDiploma && !inRange(data.CurStandard.AmericanDiploma, 0, 4)) {
-            errors["AmericanDiploma"] = ['يجب أن تكون درجة الدبلومة الأمريكية بين 0 و4'];
-        }
+
 
         // If there are validation errors, return them in the response
         if (Object.keys(errors).length > 0) {

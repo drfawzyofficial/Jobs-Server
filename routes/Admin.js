@@ -36,7 +36,7 @@ router.post("/login", adminLogin);
 router.get("/getprofile", checkAdmin, getProfileData);
 router.get("/getadmins", checkAdmin, getAdmins);
 router.delete("/admin/remove", checkAdmin, adminRemove);
-router.get("/statistics/get", getStatistics);
+router.get("/statistics/get", checkAdmin, getStatistics);
 router.get("/getstudents", checkAdmin, getStudents);
 router.get("/getcontacts", checkAdmin, getContacts);
 router.post("/chance/reviews/get", checkAdmin, adminChanceReviewsGet);

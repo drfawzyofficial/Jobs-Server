@@ -167,12 +167,11 @@ module.exports = async (req, res, next) => {
         if (!data.EnglishStandard) {
             errors["EnglishStandard"] = ["يجب أن يكون معيار اللغة الإنجليزية صحيحًا"];
         } else {
-
             // Define the properties to check
             const propertiesToCheck = ["IELTSDegree", "TOFELDegree", "TOEICDegree", "DUOLINGODegree", "stepDegree", "CEFRDegree"];
 
             // Check if the object contains at least one of the properties
-            const hasProperty = propertiesToCheck.some(prop => EnglishStandard.hasOwnProperty(prop));
+            const hasProperty = propertiesToCheck.some(prop => data.EnglishStandard.hasOwnProperty(prop));
 
             // Output the result
             if (!hasProperty) {
@@ -208,7 +207,7 @@ module.exports = async (req, res, next) => {
             const propertiesToCheck = ["Sat", "Qudrat", "GAT", "act", "Talent", "AchievementTest", "SAAT"];
 
             // Check if the object contains at least one of the properties
-            const hasProperty = propertiesToCheck.some(prop => BrainStandard.hasOwnProperty(prop));
+            const hasProperty = propertiesToCheck.some(prop => data.BrainStandard.hasOwnProperty(prop));
 
             // Output the result
             if (!hasProperty) {
@@ -248,7 +247,7 @@ module.exports = async (req, res, next) => {
             const propertiesToCheck = ["SaudiCur", "BritishCur", "AmericanDiploma"];
 
             // Check if the object contains at least one of the properties
-            const hasProperty = propertiesToCheck.some(prop => CurStandard.hasOwnProperty(prop));
+            const hasProperty = propertiesToCheck.some(prop => data.CurStandard.hasOwnProperty(prop));
 
             // Output the result
             if (!hasProperty) {

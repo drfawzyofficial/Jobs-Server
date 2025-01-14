@@ -22,6 +22,8 @@ const {
     sendReview,
     getReviews,
     chancesGet,
+    EnglishChancesRelated,
+    BrainChancesRelated,
     chanceGet,
     studentGetStatistics,
     IncrementChance
@@ -54,6 +56,8 @@ router.post("/wishlists/get", checkStudent, getWishlists);
 router.post("/review/send", checkStudent, sendReview);
 router.post("/reviews/get", checkStudent, getReviews);
 router.get("/chances/get", checkStudent, chancesGet);
+router.post("/chances/english/related/get", checkStudent, EnglishChancesRelated);
+router.post("/chances/brain/related/get", checkStudent, BrainChancesRelated);
 router.get("/chance/get", checkStudent, chanceGet);
 router.get("/statistics/get", checkStudent, studentGetStatistics);
 router.post("/chance/increment", checkStudent, IncrementChance);

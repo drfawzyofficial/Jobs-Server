@@ -107,6 +107,16 @@ const editProfile = async (req, res) => {
             if (!EnglishStandard)
                 errors["EnglishStandard"] = ["يجب أن يكون معيار اللغة الإنجليزية صحيحًا"];
             else {
+                // Define the properties to check
+                const propertiesToCheck = ["IELTSDegree", "TOFELDegree", "TOEICDegree", "DUOLINGODegree", "stepDegree", "CEFRDegree"];
+
+                // Check if the object contains at least one of the properties
+                const hasProperty = propertiesToCheck.some(prop => EnglishStandard.hasOwnProperty(prop));
+
+                // Output the result
+                if (!hasProperty) {
+                    errors["EnglishStandard"] = ['يجب أن يحتوى معيار اللغة الإنجليزية على إحدى خصائها'];
+                }
                 // Validate English standards
                 if (EnglishStandard.IELTSDegree && !IELTSDegrees.includes(EnglishStandard.IELTSDegree)) {
                     errors["IELTSDegree"] = ['يجب أن تكون درجة الأيلتس بين 0 و9'];
@@ -136,6 +146,16 @@ const editProfile = async (req, res) => {
             if (!BrainStandard)
                 errors["BrainStandard"] = ["يجب أن يكون معيار القدرات العقلية صحيحًا"];
             else {
+                // Define the properties to check
+                const propertiesToCheck = ["Sat", "Qudrat", "GAT", "act", "Talent", "AchievementTest", "SAAT"];
+
+                // Check if the object contains at least one of the properties
+                const hasProperty = propertiesToCheck.some(prop => BrainStandard.hasOwnProperty(prop));
+
+                // Output the result
+                if (!hasProperty) {
+                    errors["BrainStandard"] = ['يجب أن يحتوى معيار القدرات العقلية على إحدى خصائها'];
+                }
                 // Validate Brain standards
                 if (BrainStandard.Sat && !inRange(BrainStandard.Sat, 0, 1600)) {
                     errors["Sat"] = ['يجب أن تكون درجة الـ Sat بين 0 و1600'];

@@ -150,16 +150,16 @@ const studentSignup = async (req, res) => {
             if (!BrainStandard)
                 errors["BrainStandard"] = ["يجب أن يكون معيار القدرات العقلية صحيحًا"];
             else {
-                  // Define the properties to check
-                  const propertiesToCheck = ["Sat", "Qudrat", "GAT", "act", "Talent", "AchievementTest", "SAAT"];
+                // Define the properties to check
+                const propertiesToCheck = ["Sat", "Qudrat", "GAT", "act", "Talent", "AchievementTest", "SAAT"];
 
-                  // Check if the object contains at least one of the properties
-                  const hasProperty = propertiesToCheck.some(prop => BrainStandard.hasOwnProperty(prop));
-  
-                  // Output the result
-                  if (!hasProperty) {
-                      errors["BrainStandard"] = ['يجب أن يحتوى معيار القدرات العقلية على إحدى خصائها'];
-                  }
+                // Check if the object contains at least one of the properties
+                const hasProperty = propertiesToCheck.some(prop => BrainStandard.hasOwnProperty(prop));
+
+                // Output the result
+                if (!hasProperty) {
+                    errors["BrainStandard"] = ['يجب أن يحتوى معيار القدرات العقلية على إحدى خصائها'];
+                }
                 // Validate Brain standards
                 if (BrainStandard.Sat && !inRange(BrainStandard.Sat, 0, 1600)) {
                     errors["Sat"] = ['يجب أن تكون درجة الـ Sat بين 0 و1600'];

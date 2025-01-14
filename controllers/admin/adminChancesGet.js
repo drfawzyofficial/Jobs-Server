@@ -19,7 +19,6 @@ const adminChancesGet = async (req, res) => {
         }
         const chancesCount = Math.ceil(await Chance.find({ }).count() / 8)
         const chances =  await Chance.find({ }).limit(8).skip(8 * (page_no - 1)).exec()
-        console.log(chances);
         return sendResponse(res, 200, "تم استعادة جميع الفرص بنجاح", {chances, chancesCount});
     } catch (err) {
         return sendResponse(res, 500, err.message, "حدث خطأ في خادم السيرفر");

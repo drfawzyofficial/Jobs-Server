@@ -9,7 +9,6 @@ const Student = require('../../models/Student');
 const sendResponse = require('../../utils/sendResponse');
 
 // Import Variables
-const chance_cases = ["open", "closed", "not_started"];
 
 // Import Functions
 const getChancesByCase = async (chance_case) => {
@@ -34,30 +33,33 @@ const getChancesByCase = async (chance_case) => {
     return query;
 }
 
-const search = async (chance_case, edu_case, interest_case, interests) => {
+const search = async (chance_case, edu_case, interest_case, interests, program_status) => {
     let search_query = {};
-    
+
     let chance_case_query = await getChancesByCase(chance_case);
     if (Object.keys(chance_case_query).length !== 0)
         for (let key in chance_case_query) {
             search_query[key] = chance_case_query[key];
         }
-    if(edu_case !== "none")
+    if (edu_case !== "none")
         search_query.applicantEdus = { $in: [edu_case] };
-    if(interest_case !== "none") {
-        if(interest_case === "more_relevant")
+    if (interest_case !== "none") {
+        if (interest_case === "more_relevant")
             search_query.chanceCategory = { $in: interests };
         else
-        search_query.chanceCategory = interest_case;
+            search_query.chanceCategory = interest_case;
+    if (program_status !== "none")
+            search_query.programStatus = { $in: [program_status] };
     }
-        
-     return search_query;
+
+    return search_query;
 }
 
 // chancesGet method for getting all chances
 const chancesGet = async (req, res) => {
     try {
         let chance_cases = ["none", "open", "closed", "not_started"];
+        let program_cases = ["none", "حضوري", "عن بعد"];
         const student = await Student.findOne({ _id: req.user._id });
         let helper = await Helper.findById({ _id: process.env.HELPER_ID });
         let applicantEdus = helper.applicantEdus;
@@ -65,14 +67,15 @@ const chancesGet = async (req, res) => {
         applicantEdus.push("none");
         chanceCategories.push("none");
         chanceCategories.push("more_relevant");
-        let page_no =parseInt(req.query.page_no);
+        let page_no = parseInt(req.query.page_no);
         let chance_case = req.query.chance_case;
         let edu_case = req.query.edu_case;
         let interest_case = req.query.interest_case;
-        if(!page_no) {
+        let program_status = req.query.program_status;
+        if (!page_no) {
             return sendResponse(res, 400, "رقم الصفحة إجباري");
         }
-        if(page_no < 0) {
+        if (page_no < 0) {
             return sendResponse(res, 400, "رقم الصفحة لا يمكن أن يكون رقمًا سلبيًا");
         }
         if (!chance_cases.includes(chance_case))
@@ -81,7 +84,10 @@ const chancesGet = async (req, res) => {
             return sendResponse(res, 400, "المرحلة التعليمية يجب أن تكون قيمة صحيحة");
         if (!chanceCategories.includes(interest_case))
             return sendResponse(res, 400, "التصنيف الأساسي يجب أن يكون قيمة صحيحة");
-        let search_query = await search(chance_case, edu_case, interest_case, student.interests);
+        if (!program_cases.includes(program_status))
+            return sendResponse(res, 400, "حالة البرنامج يجب أن تكون قيمة صحيحة");
+
+        let search_query = await search(chance_case, edu_case, interest_case, student.interests, program_status);
         const chancesCount = Math.ceil(await Chance.find(search_query).count() / 8);
         const chances = await Chance.find(search_query).limit(8).skip(8 * (page_no - 1)).exec()
         return sendResponse(res, 200, "تم استعادة جميع الوظائف بنجاح", { chances, chancesCount });

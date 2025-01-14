@@ -47,6 +47,8 @@ const studentContactMessage = require('./admin/studentContactMessage');
 /* for Chance */
 const chanceCreate = require('./chance/chanceCreate');
 const chancesGet = require('./chance/chancesGet');
+const EnglishChancesRelated = require('./chance/EnglishChancesRelated');
+const BrainChancesRelated = require('./chance/BrainChancesRelated');
 const chancesSearch = require('./chance/chancesSearch');
 const chanceGet = require('./chance/chanceGet');
 const chanceUpdate = require('./chance/chanceUpdate');
@@ -60,4 +62,4 @@ const helperStatistics = require('./helper/helperStatistics');
 /* for chance */
 
 // Export All Controllers
-module.exports = {adminSignup, editProfile, uploadImage, getWishlists, sendReview, getReviews, studentSignup, createContact, studentLogin, forgotPassword, resetPassword, resetPasswordChange, studentLogout, studentDelete, getStudentData, submitCode, resendCode, changePassword, adminLogin, getProfileData, getStatistics, chanceCreate, chancesGet, adminChancesGet, chancesSearch, chanceGet, chanceUpdate, chanceRemove, adminChanceReviewsGet, helperGet, helperPost, deleteChanceCategory, deleteApplicantEdu, helperStatistics,deletechanceSubcategory, adminChanceReviewAccept, adminChanceReviewDelete, getStudents, getContacts, studentGetStatistics, IncrementChance, getAdmins, adminRemove, studentRemove, studentContactRemove, studentMessage, studentContactMessage}
+module.exports = {adminSignup, editProfile, uploadImage, getWishlists, sendReview, getReviews, studentSignup, createContact, studentLogin, forgotPassword, resetPassword, resetPasswordChange, studentLogout, studentDelete, getStudentData, submitCode, resendCode, changePassword, adminLogin, getProfileData, getStatistics, chanceCreate, chancesGet, EnglishChancesRelated, BrainChancesRelated, adminChancesGet, chancesSearch, chanceGet, chanceUpdate, chanceRemove, adminChanceReviewsGet, helperGet, helperPost, deleteChanceCategory, deleteApplicantEdu, helperStatistics,deletechanceSubcategory, adminChanceReviewAccept, adminChanceReviewDelete, getStudents, getContacts, studentGetStatistics, IncrementChance, getAdmins, adminRemove, studentRemove, studentContactRemove, studentMessage, studentContactMessage}

@@ -38,6 +38,13 @@ const chanceCreate = async (req, res) => {
         req.body.chanceStartDate = moment(chanceStartDate).format('YYYY-MM-DD');
         req.body.chanceEndDate = moment(chanceEndDate).format('YYYY-MM-DD');
         let chance = await new Chance(req.body).save();
+        let chanceCategory = chance.chanceCategory;
+        let students = await Student.find({ interests: { $in: [chanceCategory] } });
+        for (let i = 0; i < students.length; i++) {
+            const mail = { mailService: process.env.SYSTEM_SERVICE_NODEMAILER, mailHost: process.env.SYSTEM_HOST_NODEMAILER, mailPort: Number(process.env.SYSTEM_PORT_NODEMAILER), mailAddress: process.env.SYSTEM_EMAIL_NODEMAILER, mailPassword: process.env.SYSTEM_PASS_NODEMAILER }
+            const content = { subject: "فرصة ملائمة", title: "اضفنا فرصة جديدة ممكن تناسبك!", message: `عزيزي الطالب/ الطالبة، حبينا نبلغك إننا اضفنا فرصة جديدة في مجال [${chanceCategory}]، ونعتقد أنها ممكن تكون مناسبة لك! لا تضيع الفرصة، اضغط على الرابط وشوف التفاصيل الحين: [${ process.env.CLIENT_URL}/student/chance/${ chance._id }] - تحياتنا، فريق منصة خطط.` }
+            await sendEmail(mail, students[i], content);
+        }
         return sendResponse(res, 201, "تم إنشاء الفرصة بنجاح", chance);
     } catch (err) {
         return sendResponse(res, 500, err.message, "حدث خطأ في خادم السيرفر");

@@ -13,7 +13,7 @@ const sendResponse = require('../../utils/sendResponse');
 const getAdmins = async (req, res) => {
     try {
         const admins = await Admin.find({ _id: {$ne: req.user._id}});
-        return sendResponse(res, 200, "تم استرجاع بيانات المسئولين بنجاح", admins);
+        return sendResponse(res, 200, "تم استرجاع بيانات المسؤولين بنجاح", admins);
     } catch (err) {
         return sendResponse(res, 500, err.message, "حدث خطأ في خادم السيرفر");
     }

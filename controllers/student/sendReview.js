@@ -61,7 +61,7 @@ const sendReview = async (req, res, next) => {
         return sendResponse(
             res,
             200,
-            'تم إرسال تعليقك إلى المسئول وهو بإنتظار الموافقة',
+            'تم إرسال تعليقك إلى المسؤول  وهو بإنتظار الموافقة',
             review
         );
     } catch (err) {

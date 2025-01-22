@@ -25,7 +25,7 @@ module.exports = async (req, res, next) => {
         const admin = await Admin.findById(decoded._id);
         if (!admin) {
             // If the admin does not exist, return an error response
-            return sendResponse(res, 401, "هذا المسئول غير موجود في قاعدة البيانات");
+            return sendResponse(res, 401, "هذا المسؤول  غير موجود في قاعدة البيانات");
         }
 
         // Attach the decoded user data to the request object

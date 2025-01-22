@@ -49,7 +49,7 @@ const createContact = async (req, res, next) => {
         return sendResponse(
             res,
             200,
-            'تم إرسال مشكلتك بنجاح إلى المسئول. شكرًا لتواصلك معنا',
+            'تم إرسال مشكلتك بنجاح إلى المسؤول . شكرًا لتواصلك معنا',
             contact
         );
     } catch (err) {

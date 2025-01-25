@@ -25,7 +25,7 @@
     "validatorjs": "^3.22.1"
   },
   "engines": {
-     "node": ">=18.0.0"
+   "node": "22.x"
   },
   "devDependencies": {
     "cors": "^2.8.5",

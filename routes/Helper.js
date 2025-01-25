@@ -8,7 +8,7 @@ const {
     helperGet,
     helperPost,
     deleteChanceCategory,
-    deletechancesubcategory,
+    deleteChanceSubcategory,
     deleteApplicantEdu,
     helperStatistics
 } = require("../controllers/index");
@@ -19,7 +19,7 @@ const { checkAdmin } = require("../middlewares/index");
 // Routes
 router.post("/post", checkAdmin, helperPost);
 router.delete("/deletechanceCategory", checkAdmin, deleteChanceCategory);
-router.delete("/deletechancesubcategory", checkAdmin, deletechancesubcategory);
+router.delete("/deletechancesubcategory", checkAdmin, deleteChanceSubcategory);
 router.delete("/deleteApplicantEdu", checkAdmin, deleteApplicantEdu);
 router.get("/get", helperGet);
 router.get("/statistics/get", helperStatistics);

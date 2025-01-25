@@ -1,6 +1,8 @@
 // JS Strict Mode
 "use strict";
 
+// comment
+
 // Import Models
 const Helper = require('../../models/Helper');
 

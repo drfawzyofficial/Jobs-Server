@@ -59,7 +59,7 @@ const deleteChanceCategory = require('./helper/deleteChanceCategory');
 const deletechancesubcategory = require('./helper/deletechancesubcategory');
 const deleteApplicantEdu = require('./helper/deleteApplicantEdu');
 const helperStatistics = require('./helper/helperStatistics');
-/* for chance */
+/* for chance **/
 
 // Export All Controllers
 module.exports = {adminSignup, editProfile, uploadImage, getWishlists, sendReview, getReviews, studentSignup, createContact, studentLogin, forgotPassword, resetPassword, resetPasswordChange, studentLogout, studentDelete, getStudentData, submitCode, resendCode, changePassword, adminLogin, getProfileData, getStatistics, chanceCreate, chancesGet, EnglishChancesRelated, BrainChancesRelated, adminChancesGet, chancesSearch, chanceGet, chanceUpdate, chanceRemove, adminChanceReviewsGet, helperGet, helperPost, deleteChanceCategory, deleteApplicantEdu, helperStatistics,deletechancesubcategory, adminChanceReviewAccept, adminChanceReviewDelete, getStudents, getContacts, studentGetStatistics, IncrementChance, getAdmins, adminRemove, studentRemove, studentContactRemove, studentMessage, studentContactMessage}

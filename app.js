@@ -16,7 +16,7 @@ require('./connection/mongoose');
 // dotenv.config({ path: path.join(__dirname, '.env') });
 
 // Define server port.
-const port = 5000;
+const port = 8080;
 
 // Initialize Express app.
 const app = express();

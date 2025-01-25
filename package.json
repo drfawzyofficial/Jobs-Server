@@ -24,9 +24,6 @@
     "uuid": "^9.0.1",
     "validatorjs": "^3.22.1"
   },
-  "engines": {
-   "node": "22.x"
-  },
   "devDependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",

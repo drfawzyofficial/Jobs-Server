@@ -4,7 +4,7 @@ const compression = require('compression');
 // const responseTime = require('response-time');
 // const cors = require('cors');
 // const morgan = require('morgan');
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 const path = require('path');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -13,10 +13,10 @@ const mongoSanitize = require('express-mongo-sanitize');
 require('./connection/mongoose');
 
 // Load environment variables.
-dotenv.config({ path: path.join(__dirname, '.env') });
+// dotenv.config({ path: path.join(__dirname, '.env') });
 
 // Define server port.
-const port = process.env.PORT || 3000;
+const port = 3000;
 
 // Initialize Express app.
 const app = express();

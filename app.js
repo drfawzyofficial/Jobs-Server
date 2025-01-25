@@ -29,7 +29,6 @@ const corsOptions = {
     // Replace with your domain
     origin: 'https://khattit.com',
     methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
-  
     // Enable this if you need to
     // send cookies or HTTP authentication
     credentials: true,

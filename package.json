@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "stop": "taskkill -f -im node.exe",
-    "start": "nodemon app.js"
+    "dev": "nodemon index",
+    "start": "node app.js"
   },
   "author": "chanceportalplatform",
   "license": "ISC",
@@ -22,6 +23,9 @@
     "nodemailer": "^6.9.4",
     "uuid": "^9.0.1",
     "validatorjs": "^3.22.1"
+  },
+  "engines": {
+     "node": ">=18.0.0"
   },
   "devDependencies": {
     "cors": "^2.8.5",

@@ -1,10 +1,10 @@
 // Include necessary packages.
 const express = require('express');
 const compression = require('compression');
-// const responseTime = require('response-time');
-// const cors = require('cors');
-// const morgan = require('morgan');
-// const dotenv = require('dotenv');
+const responseTime = require('response-time');
+const cors = require('cors');
+const morgan = require('morgan');
+const dotenv = require('dotenv');
 const path = require('path');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -13,10 +13,10 @@ const mongoSanitize = require('express-mongo-sanitize');
 require('./connection/mongoose');
 
 // Load environment variables.
-// dotenv.config({ path: path.join(__dirname, '.env') });
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 // Define server port.
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Initialize Express app.
 const app = express();
@@ -27,9 +27,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Middleware setup.
 app.use(compression()); // Compress all HTTP responses.
 app.use(helmet()); // Secure the app by setting various HTTP headers.
-// app.use(responseTime()); // Add X-Response-Time header to responses.
-// app.use(morgan('dev')); // HTTP request logger.
-// app.use(cors()); // Enable Cross-Origin Resource Sharing.
+app.use(responseTime()); // Add X-Response-Time header to responses.
+app.use(morgan('dev')); // HTTP request logger.
+app.use(cors()); // Enable Cross-Origin Resource Sharing.
 app.use(express.json({ limit: '50mb' })); // Parse JSON with a large payload.
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data.
 app.use(mongoSanitize()); // Prevent NoSQL injection.

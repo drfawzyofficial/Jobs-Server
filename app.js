@@ -24,12 +24,25 @@ const app = express();
 // Middleware for serving static files from the 'uploads' directory.
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+
+const corsOptions = {
+    // Replace with your domain
+    origin: 'https://khattit.com',
+    methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
+  
+    // Enable this if you need to
+    // send cookies or HTTP authentication
+    credentials: true,
+    optionsSuccessStatus: 204
+  };
+  
+
 // Middleware setup.
 app.use(compression()); // Compress all HTTP responses.
 app.use(helmet()); // Secure the app by setting various HTTP headers.
 app.use(responseTime()); // Add X-Response-Time header to responses.
 app.use(morgan('dev')); // HTTP request logger.
-app.use(cors()); // Enable Cross-Origin Resource Sharing.
+app.use(cors(corsOptions)); // Enable Cross-Origin Resource Sharing.
 app.use(express.json({ limit: '50mb' })); // Parse JSON with a large payload.
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data.
 app.use(mongoSanitize()); // Prevent NoSQL injection.

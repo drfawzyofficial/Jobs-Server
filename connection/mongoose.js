@@ -27,7 +27,7 @@
 // };
 
 // Execute the connection function
-connectToDatabase();
+// connectToDatabase();
 
 // Connection on mongoDB Atlas
 const mongoose = require("mongoose");

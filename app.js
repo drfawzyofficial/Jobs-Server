@@ -29,11 +29,7 @@ app.use(compression()); // Compress all HTTP responses.
 app.use(helmet()); // Secure the app by setting various HTTP headers.
 app.use(responseTime()); // Add X-Response-Time header to responses.
 app.use(morgan('dev')); // HTTP request logger.
-app.use(cors({
-    origin: 'https://khattit.com', // Allow specific origin
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true, // If using cookies
-})); // Enable Cross-Origin Resource Sharing.
+app.use(cors()); // Enable Cross-Origin Resource Sharing.
 app.use(express.json({ limit: '50mb' })); // Parse JSON with a large payload.
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data.
 app.use(mongoSanitize()); // Prevent NoSQL injection.

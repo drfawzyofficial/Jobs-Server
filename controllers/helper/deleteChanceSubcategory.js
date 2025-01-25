@@ -12,9 +12,7 @@ const deletechancesubcategory = async (req, res) => {
     try {
         let chanceSubcategory = req.body.chanceSubcategory;
         let helper =  await Helper.findById({_id: process.env.HELPER_ID});
-        let chanceSubcategories = helper.chanceSubcategories.filter((el) => {
-            return el !== "التصنيف" 
-        });
+        let chanceSubcategories = helper.chanceSubcategories;
         if (typeof (chanceSubcategory) === 'string') {
             if (!chanceSubcategories.includes(chanceSubcategory)) {
                 return sendResponse(res, 400, "حقل تصنيف الفرصة الفرعي غير موجودة للحذف");

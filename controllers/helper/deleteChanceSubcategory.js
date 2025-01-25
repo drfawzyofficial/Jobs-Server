@@ -7,8 +7,8 @@ const Helper = require('../../models/Helper');
 // Import Utils 
 const sendResponse = require('../../utils/sendResponse');
 
-// deletechanceSubcategory method for deleting a chanceCategory
-const deletechanceSubcategory = async (req, res) => {
+// deletechancesubcategory method for deleting a chanceCategory
+const deletechancesubcategory = async (req, res) => {
     try {
         let chanceSubcategory = req.body.chanceSubcategory;
         let helper =  await Helper.findById({_id: process.env.HELPER_ID});
@@ -28,5 +28,5 @@ const deletechanceSubcategory = async (req, res) => {
     }
 }
 
-// Export deletechanceSubcategory
-module.exports = deletechanceSubcategory;
+// Export deletechancesubcategory
+module.exports = deletechancesubcategory;

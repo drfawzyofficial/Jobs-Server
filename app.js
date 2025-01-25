@@ -1,7 +1,7 @@
 // Include necessary packages.
 const express = require('express');
 const compression = require('compression');
-const responseTime = require('response-time');
+// const responseTime = require('response-time');
 const cors = require('cors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
@@ -27,7 +27,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Middleware setup.
 app.use(compression()); // Compress all HTTP responses.
 app.use(helmet()); // Secure the app by setting various HTTP headers.
-app.use(responseTime()); // Add X-Response-Time header to responses.
+// app.use(responseTime()); // Add X-Response-Time header to responses.
 app.use(morgan('dev')); // HTTP request logger.
 app.use(cors()); // Enable Cross-Origin Resource Sharing.
 app.use(express.json({ limit: '50mb' })); // Parse JSON with a large payload.

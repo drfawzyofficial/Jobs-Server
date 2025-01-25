@@ -2,10 +2,10 @@
 "use strict";
 
 // Import Packages
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 
 // Set Mongoose configurations
-mongoose.set('strictQuery', true);
+// mongoose.set('strictQuery', true);
 
 // MongoDB connection function
 // const connectToDatabase = async () => {

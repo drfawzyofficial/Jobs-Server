@@ -5,8 +5,7 @@
   "main": "app.js",
   "scripts": {
     "stop": "taskkill -f -im node.exe",
-    "dev": "nodemon index",
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "author": "chanceportalplatform",
   "license": "ISC",

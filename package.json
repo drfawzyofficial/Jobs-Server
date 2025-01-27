@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "stop": "taskkill -f -im node.exe",
-    "start": "node index.js",
-    "build": "node index.js"
+    "start": "node api/index.js",
+    "build": "node api/index.js"
   },
   "author": "chanceportalplatform",
   "license": "ISC",

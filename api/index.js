@@ -10,7 +10,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 
 // Database connection.
-require('./connection/mongoose');
+require('../connection/mongoose');
 
 // Load environment variables.
 dotenv.config({ path: path.join(__dirname, '.env') });
@@ -35,7 +35,7 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data.
 app.use(mongoSanitize()); // Prevent NoSQL injection.
 
 // Import routes.
-const { Admin, Student, Helper } = require('./routes/index');
+const { Admin, Student, Helper } = require('../routes/index');
 
 // Define routes.
 app.use('/api/v1/admin', Admin);

@@ -14,6 +14,7 @@ const studentLogout = require('./student/studentLogout');
 const getStudentData = require('./student/getStudentData');
 const studentDelete = require('./student/studentDelete');
 const submitCode = require('./student/submitCode');
+const enableNotifications = require('./student/enableNotifications');
 const resendCode = require('./student/resendCode');
 const changePassword = require('./student/changePassword');
 const uploadImage = require('./student/uploadImage');
@@ -62,4 +63,4 @@ const helperStatistics = require('./helper/helperStatistics');
 /* for chance **/
 
 // Export All Controllers
-module.exports = {adminSignup, editProfile, uploadImage, getWishlists, sendReview, getReviews, studentSignup, createContact, studentLogin, forgotPassword, resetPassword, resetPasswordChange, studentLogout, studentDelete, getStudentData, submitCode, resendCode, changePassword, adminLogin, getProfileData, getStatistics, chanceCreate, chancesGet, EnglishChancesRelated, BrainChancesRelated, adminChancesGet, chancesSearch, chanceGet, chanceUpdate, chanceRemove, adminChanceReviewsGet, helperGet, helperPost, deleteChanceCategory, deleteApplicantEdu, helperStatistics,deleteChanceSubcategory, adminChanceReviewAccept, adminChanceReviewDelete, getStudents, getContacts, studentGetStatistics, IncrementChance, getAdmins, adminRemove, studentRemove, studentContactRemove, studentMessage, studentContactMessage}
+module.exports = {adminSignup, editProfile, uploadImage, getWishlists, sendReview, getReviews, studentSignup, createContact, studentLogin, forgotPassword, resetPassword, resetPasswordChange, studentLogout, studentDelete, getStudentData, submitCode, enableNotifications, resendCode, changePassword, adminLogin, getProfileData, getStatistics, chanceCreate, chancesGet, EnglishChancesRelated, BrainChancesRelated, adminChancesGet, chancesSearch, chanceGet, chanceUpdate, chanceRemove, adminChanceReviewsGet, helperGet, helperPost, deleteChanceCategory, deleteApplicantEdu, helperStatistics,deleteChanceSubcategory, adminChanceReviewAccept, adminChanceReviewDelete, getStudents, getContacts, studentGetStatistics, IncrementChance, getAdmins, adminRemove, studentRemove, studentContactRemove, studentMessage, studentContactMessage}

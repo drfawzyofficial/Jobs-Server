@@ -7,20 +7,20 @@ const { Schema } = mongoose;
 
 // Define the nested schemas with custom validation
 const EnglishStandardSchema = new Schema({
-  IELTSDegree: { type: Number, enum: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9] },
-  TOFELDegree: { type: Number, min: 0, max: 120 },
-  TOEICDegree: { type: Number, min: 0, max: 990 },
-  DUOLINGODegree: { type: Number, min: 0, max: 160 },
-  stepDegree: { type: Number, min: 0, max: 100 },
-  CEFRDegree: { type: String, enum: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', ""] }
+  IELTS: { type: Number, enum: [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9] },
+  TOEFL: { type: Number, min: 0, max: 120 },
+  TOEIC: { type: Number, min: 0, max: 990 },
+  DUOLINGO: { type: Number, min: 0, max: 160 },
+  STEP: { type: Number, min: 0, max: 100 },
+  CEFR: { type: String, enum: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', ""] }
 }, { _id: false });
 const BrainStandardSchema = new Schema({
   Sat: { type: Number, min: 0, max: 1600 },
   Qudrat: { type: Number, min: 0, max: 100 },
   GAT: { type: Number, min: 0, max: 100 },
-  act: { type: Number, min: 1, max: 36 },
+  ACT: { type: Number, min: 1, max: 36 },
   Talent: { type: Number, min: 0, max: 2000 },
-  AchievementTest: { type: Number, min: 0, max: 100 },
+  AchivementTest: { type: Number, min: 0, max: 100 },
   SAAT: { type: Number, min: 0, max: 100 },
 }, { _id: false });
 const CurStandardSchema = new Schema({
@@ -34,7 +34,7 @@ const chanceSchema = new Schema(
     chanceName: {
       type: String,
       required: [true, "chanceName is required"],
-      minlength: 6,
+      minlength: 4,
       trim: true,
     },
     chanceLink: {
@@ -65,7 +65,6 @@ const chanceSchema = new Schema(
     },
     chanceDesc: {
       type: String,
-      required: [true, "chanceDesc is required"],
     },
     chanceSubcategory: {
       type: String,
@@ -157,11 +156,10 @@ const chanceSchema = new Schema(
     },
     documentsContent: {
       type: String,
-      required: [true, "documentsContent is required"],
+      trim: true
     },
     notesContent: {
       type: String,
-      required: [true, "notesContent is required"],
     },
     EnglishStandard: EnglishStandardSchema,
     BrainStandard: BrainStandardSchema,

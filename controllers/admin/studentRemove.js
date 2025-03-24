@@ -15,7 +15,7 @@ const studentRemove = async (req, res) => {
     try {
         let student = await Student.findById({ _id: req.body._id });
         if(!student) 
-            return sendResponse(res, 404, "الطالب غير موجود");
+            return sendResponse(res, 404, "الحساب غير موجود");
          student = await Student.findByIdAndRemove({ _id: req.body._id });
         return sendResponse(res, 200, "تم حذف الطالب بنجاح", student);
     } catch (err) {

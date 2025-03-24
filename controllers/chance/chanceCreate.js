@@ -31,6 +31,9 @@ const chanceCreate = async (req, res) => {
         } else {
             req.body.chanceImage = `${process.env.SERVER_URL}/uploads/chances/chance.jpg`;
         }
+        
+        if(req.body.documentsContent === "<p><br></p>") req.body.documentsContent = "";
+
 
         req.body.noOfClicks = 0;
         req.body.chanceRegStartDate = moment(chanceRegStartDate).format('YYYY-MM-DD');
@@ -39,7 +42,7 @@ const chanceCreate = async (req, res) => {
         req.body.chanceEndDate = moment(chanceEndDate).format('YYYY-MM-DD');
         let chance = await new Chance(req.body).save();
         let chanceCategory = chance.chanceCategory;
-        let students = await Student.find({ interests: { $in: [chanceCategory] } });
+        let students = await Student.find({ enable_notifications: true, interests: { $in: [chanceCategory] } });
         for (let i = 0; i < students.length; i++) {
             const mail = { mailService: process.env.SYSTEM_SERVICE_NODEMAILER, mailHost: process.env.SYSTEM_HOST_NODEMAILER, mailPort: Number(process.env.SYSTEM_PORT_NODEMAILER), mailAddress: process.env.SYSTEM_EMAIL_NODEMAILER, mailPassword: process.env.SYSTEM_PASS_NODEMAILER }
             const content = { subject: "فرصة ملائمة", title: "اضفنا فرصة جديدة ممكن تناسبك!", message: `عزيزي الطالب/ الطالبة، حبينا نبلغك إننا اضفنا فرصة جديدة في مجال [${chanceCategory}]، ونعتقد أنها ممكن تكون مناسبة لك! لا تضيع الفرصة، اضغط على الرابط وشوف التفاصيل الحين: [${ process.env.CLIENT_URL}/student/chance/${ chance._id }] - تحياتنا، فريق منصة خطط.` }

@@ -64,20 +64,20 @@ const saudiCities = [
 
 // Define the nested schemas with custom validation
 const EnglishStandardSchema = new Schema({
-  IELTSDegree: { type: Number, min: 0, max: 9 },
-  TOFELDegree: { type: Number, min: 0, max: 120 },
-  TOEICDegree: { type: Number, min: 0, max: 990 },
-  DUOLINGODegree: { type: Number, min: 0, max: 160 },
-  stepDegree: { type: Number, min: 0, max: 100 },
-  CEFRDegree: { type: String, enum: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', ""] }
+  IELTS: { type: Number, min: 0, max: 9 },
+  TOEFL: { type: Number, min: 0, max: 120 },
+  TOEIC: { type: Number, min: 0, max: 990 },
+  DUOLINGO: { type: Number, min: 0, max: 160 },
+  STEP: { type: Number, min: 0, max: 100 },
+  CEFR: { type: String, enum: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', ""] }
 }, { _id: false });
 const BrainStandardSchema = new Schema({
   Sat: { type: Number, min: 0, max: 1600 },
   Qudrat: { type: Number, min: 0, max: 100 },
   GAT: { type: Number, min: 0, max: 100 },
-  act: { type: Number, min: 1, max: 36 },
+  ACT: { type: Number, min: 1, max: 36 },
   Talent: { type: Number, min: 0, max: 2000 },
-  AchievementTest: { type: Number, min: 0, max: 100 },
+  AchivementTest: { type: Number, min: 0, max: 100 },
   SAAT: { type: Number, min: 0, max: 100 },
 }, { _id: false });
 
@@ -89,13 +89,13 @@ const studentSchema = new Schema(
     first_name: {
       type: String,
       required: [true, "حقل الاسم الأول اجباري"],
-      minlength: 3,
+      minlength: 2,
       trim: true,
     },
     last_name: {
       type: String,
       required: [true, "حقل الاسم الثاني إجباري"],
-      minlength: 3,
+      minlength: 2,
       trim: true,
     },
     email: {
@@ -105,7 +105,7 @@ const studentSchema = new Schema(
       required: [true, "حقل البريد الإلكتروني اجباري"],
       unique: true,
       match: [
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         'Please fill a valid email address',
       ],
     },
@@ -114,7 +114,7 @@ const studentSchema = new Schema(
       required: [true, 'حقل رقم الهاتف إجباري'], // Required field with custom error message
       unique: true,
       match: [
-        /^(\+?\d{1,4}[-.\s]?)?(\(?\d{1,4}\)?[-.\s]?)?[\d-.\s]{5,15}$/,
+        /^05\d{8}$/,
         'من فضلك أدخل رقم هاتف صحيح' // Validate phone number format with a regex pattern
       ],
       minlength: [10, 'يجب أن يتكون رقم الهاتف من 10 أرقام على الأقل'], // Minimum length of 10 digits
@@ -195,6 +195,14 @@ const studentSchema = new Schema(
     role: {
       type: String,
       default: "Student",
+    },
+    enable_notifications: {
+      type: Boolean,
+      required: [true, "enable_notifications is required"]
+    },
+    acceptConditions: {
+      type: Boolean,
+      required: [true, "acceptConditions is required"]
     },
     online: {
       type: Boolean,

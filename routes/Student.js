@@ -14,9 +14,9 @@ const {
     studentDelete,
     studentLogout,
     submitCode,
+    enableNotifications,
     resendCode,
     changePassword,
-    uploadImage,
     getWishlists,
     editProfile,
     sendReview,
@@ -39,7 +39,7 @@ const {
 } = require("../middlewares/index");
 
 // Routes
-router.post("/signup", signupValidation, studentSignup);
+router.post("/signup", studentSignup);
 router.post("/login", studentLogin);
 router.post("/password/forgot", forgotPassword);
 router.post("/password/reset", resetPassword);
@@ -47,11 +47,12 @@ router.post("/password/reset/change", resetPasswordChange);
 router.post("/contact/create", checkStudent, createContact);
 router.get("/logout", checkStudent, studentLogout);
 router.get("/getprofile", checkStudent, getStudentData);
-router.post("/editProfile", checkStudent, profileValidation, editProfile);
+router.post("/editProfile", checkStudent, editProfile);
 router.delete("/delete", checkStudent, studentDelete);
+router.post("/enablenotifications", checkStudent, enableNotifications);
 router.post("/code/submit", checkStudent, submitCode);
 router.post("/code/resend", checkStudent, resendCode);
-router.post("/password/change", checkStudent, changePassVal, changePassword);
+router.post("/password/change", checkStudent, changePassword);
 router.post("/wishlists/get", checkStudent, getWishlists);
 router.post("/review/send", checkStudent, sendReview);
 router.post("/reviews/get", checkStudent, getReviews);

@@ -30,7 +30,7 @@ const studentLogin = async (req, res) => {
         });
 
         if (!student) {
-            return sendResponse(res, 401, "الطالب غير موجود");
+            return sendResponse(res, 401, "الحساب غير موجود");
         }
 
         // Validate the provided password

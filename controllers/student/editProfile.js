@@ -12,7 +12,9 @@ const Helper = require("../../models/Helper");
 // Import Utilities
 const sendResponse = require('../../utils/sendResponse');
 const sendEmail = require('../../utils/sendEmail');
-const { inRange, isValidDate } = require("../../utils/funcs");
+
+const { inRange, isRequired, isString, isBoolean, isMinLength, matchesRegex, isInList, isMinArrayLength } = require("../../utils/funcs");
+
 
 // Variables
 const saudiCities = [
@@ -67,8 +69,8 @@ const saudiCities = [
     "دومة الجندل"
 ];
 
-const IELTSDegrees = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, "0", "0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5", "5.5", "6", "6.5", "7", "7.5", "8", "8.5", "9"];
-const CEFRDegrees = ["A1", "A2", "B1", "B2", "C1", "C2"];
+const IELTSs = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, "0", "0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5", "5.5", "6", "6.5", "7", "7.5", "8", "8.5", "9"];
+const CEFRs = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
 /**
  * Controller for editing a student's profile data.
@@ -76,8 +78,8 @@ const CEFRDegrees = ["A1", "A2", "B1", "B2", "C1", "C2"];
  */
 const editProfile = async (req, res) => {
     try {
-        // Extract request data
-        // Extract student details from the request body
+        // ExtrACT request data
+        // ExtrACT student details from the request body
         const { first_name, last_name, email, phone, DOB, applicantGender, applicantEdu, saudinationality, saudiCity, tookEnglishTest, tookBrainTest, interests, Subinterests } = req.body;
         const errors = {};
         var EnglishStandard = req.body.EnglishStandard;
@@ -85,30 +87,61 @@ const editProfile = async (req, res) => {
 
         const helper = await Helper.findById(process.env.HELPER_ID);
 
-        if (first_name.trim().length < 3)
-            errors["first_name"] = ["يجب أن يكون الاسم الأول مكون من 3 أحرف"];
+        if (!isRequired(first_name) || !isString(first_name) || !isMinLength(first_name, 2)) {
+            errors["first_name"] = ["الاسم الأول يجب الأ يقل عن حرفين."];
+        }
 
-        if (last_name.trim().length < 3)
-            errors["last_name"] = ["يجب أن يكون الاسم الأخير مكون من 3 أحرف"];
+        if (!isRequired(last_name) || !isString(last_name) || !isMinLength(last_name, 2)) {
+            errors["last_name"] = ["الاسم الأخير يجب الأ يقل عن حرفين."];
+        }
 
-        if (!isValidDate(DOB))
-            errors["DOB"] = ["يجب أن يكون التاريخ صالح"];
+        if (!isRequired(email) || !isString(email) || !matchesRegex(email, /^\S+@\S+\.\S+$/)) {
+            errors["email"] = ["البريد الإلكتروني غير صالح."];
+        }
+        if (!isRequired(applicantGender) || !isInList(applicantGender, ["ذكر", "أنثى"])) {
+            errors["applicantGender"] = ["الجنس يجب أن يكون من النوع ذكر أو أنثى."];
+        }
 
-        if (!helper.applicantEdus.includes(applicantEdu))
-            errors["applicantEdu"] = ["يجب أن يكون المرحلة التعليمية صحيحة"]
+        if (!isRequired(DOB) || !matchesRegex(DOB, /^\d{4}-\d{2}-\d{2}$/)){
+            errors["DOB"] = ["تاريخ الميلاد غير صالح."];
+        }
+
+        if (!isRequired(phone) || !isString(phone) || !matchesRegex(phone, /^05\d{8}$/)) {
+            errors["phone"] = ["رقم الهاتف يجب أن يكون على الصيغة الموضحة"];
+        }
+
+        if (!isRequired(applicantEdu) || !isString(applicantEdu) || !isInList(applicantEdu, helper.applicantEdus)) {
+            errors["applicantEdu"] = ["يجب أن يكون المرحلة التعليمية صحيحة"];
+        }
+
+        if (!isRequired(saudinationality) || !isBoolean(saudinationality)) {
+            errors["saudinationality"] = ["الجنسية السعودية يجب أن تكون قيمة منطقية (true أو false)."];
+        }
+
+        if (!isRequired(tookEnglishTest) || !isBoolean(tookEnglishTest)) {
+            errors["tookEnglishTest"] = ["اختبار اللغة الإنجليزية يجب أن يكون قيمة منطقية."];
+        }
+
+        if (!isRequired(interests) || !isMinArrayLength(interests, 3)) {
+            errors["interests"] = ["يجب اختيار 3 أنواع من الفرص على الأقل."];
+        }
+
+        if (!isRequired(Subinterests) || !isMinArrayLength(Subinterests, 3)) {
+            errors["Subinterests"] = ["يجب اختيار 3 مجالات على الأقل."];
+        }
 
 
         if (!saudiCities.includes(saudiCity))
             errors["saudiCity"] = ["يجب أن تكون المدينة صحيحة"];
 
         if (tookEnglishTest === false) {
-            EnglishStandard = { IELTSDegree: '', TOFELDegree: '', TOEICDegree: '', DUOLINGODegree: '', stepDegree: '', CEFRDegree: '' };
+            EnglishStandard = { IELTS: '', TOEFL: '', TOEIC: '', DUOLINGO: '', STEP: '', CEFR: '' };
         } else {
             if (!EnglishStandard)
                 errors["EnglishStandard"] = ["يجب أن يكون معيار اللغة الإنجليزية صحيحًا"];
             else {
                 // Define the properties to check
-                const propertiesToCheck = ["IELTSDegree", "TOFELDegree", "TOEICDegree", "DUOLINGODegree", "stepDegree", "CEFRDegree"];
+                const propertiesToCheck = ["IELTS", "TOEFL", "TOEIC", "DUOLINGO", "STEP", "CEFR"];
 
                 // Check if the object contains at least one of the properties
                 const hasProperty = propertiesToCheck.some(prop => EnglishStandard.hasOwnProperty(prop));
@@ -118,36 +151,36 @@ const editProfile = async (req, res) => {
                     errors["EnglishStandard"] = ['يجب أن يحتوى معيار اللغة الإنجليزية على إحدى خصائها'];
                 }
                 // Validate English standards
-                if (EnglishStandard.IELTSDegree && !IELTSDegrees.includes(EnglishStandard.IELTSDegree)) {
-                    errors["IELTSDegree"] = ['يجب أن تكون درجة الأيلتس بين 0 و9'];
+                if (EnglishStandard.IELTS && !IELTSs.includes(EnglishStandard.IELTS)) {
+                    errors["IELTS"] = ['يجب أن تكون درجة الأيلتس بين 0 و9'];
                 }
-                if (EnglishStandard.TOFELDegree && !inRange(EnglishStandard.TOFELDegree, 0, 120)) {
-                    errors["TOFELDegree"] = ['يجب أن تكون درجة التويفل بين 0 و120'];
+                if (EnglishStandard.TOEFL && !inRange(EnglishStandard.TOEFL, 0, 120)) {
+                    errors["TOEFL"] = ['يجب أن تكون درجة التويفل بين 0 و120'];
                 }
-                if (EnglishStandard.TOEICDegree && !inRange(EnglishStandard.TOEICDegree, 0, 990)) {
-                    errors["TOEICDegree"] = ['يجب أن تكون درجة التويك بين 0 و990'];
+                if (EnglishStandard.TOEIC && !inRange(EnglishStandard.TOEIC, 0, 990)) {
+                    errors["TOEIC"] = ['يجب أن تكون درجة التويك بين 0 و990'];
                 }
-                if (EnglishStandard.DUOLINGODegree && !inRange(EnglishStandard.DUOLINGODegree, 0, 160)) {
-                    errors["DUOLINGODegree"] = ['يجب أن تكون درجة الدولينجو بين 0 و160'];
+                if (EnglishStandard.DUOLINGO && !inRange(EnglishStandard.DUOLINGO, 0, 160)) {
+                    errors["DUOLINGO"] = ['يجب أن تكون درجة الدولينجو بين 0 و160'];
                 }
-                if (EnglishStandard.stepDegree && !inRange(EnglishStandard.stepDegree, 0, 100)) {
-                    errors["stepDegree"] = ['يجب أن تكون درجة الاستب بين 0 و100'];
+                if (EnglishStandard.STEP && !inRange(EnglishStandard.STEP, 0, 100)) {
+                    errors["STEP"] = ['يجب أن تكون درجة الاستب بين 0 و100'];
                 }
-                if (EnglishStandard.CEFRDegree && !CEFRDegrees.includes(EnglishStandard.CEFRDegree)) {
-                    errors["CEFRDegree"] = ['يجب أن يكون معيار السيفر صحيحًا'];
+                if (EnglishStandard.CEFR && !CEFRs.includes(EnglishStandard.CEFR)) {
+                    errors["CEFR"] = ['يجب أن يكون معيار السيفر صحيحًا'];
                 }
             }
 
         }
 
         if (tookBrainTest === false) {
-            BrainStandard = { Sat: '', Qudrat: '', GAT: '', act: '', Talent: '', AchievementTest: '', SAAT: '' };
+            BrainStandard = { Sat: '', Qudrat: '', GAT: '', ACT: '', Talent: '', AchivementTest: '', SAAT: '' };
         } else {
             if (!BrainStandard)
                 errors["BrainStandard"] = ["يجب أن يكون معيار القدرات العقلية صحيحًا"];
             else {
                 // Define the properties to check
-                const propertiesToCheck = ["Sat", "Qudrat", "GAT", "act", "Talent", "AchievementTest", "SAAT"];
+                const propertiesToCheck = ["Sat", "Qudrat", "GAT", "ACT", "Talent", "AchivementTest", "SAAT"];
 
                 // Check if the object contains at least one of the properties
                 const hasProperty = propertiesToCheck.some(prop => BrainStandard.hasOwnProperty(prop));
@@ -166,14 +199,14 @@ const editProfile = async (req, res) => {
                 if (BrainStandard.GAT && !inRange(BrainStandard.GAT, 0, 100)) {
                     errors["GAT"] = ['يجب أن تكون درجة الجات بين 0 و100'];
                 }
-                if (BrainStandard.act && !inRange(BrainStandard.act, 0, 36)) {
-                    errors["act"] = ['يجب أن تكون درجة الاكت بين 0 و36'];
+                if (BrainStandard.ACT && !inRange(BrainStandard.ACT, 0, 36)) {
+                    errors["ACT"] = ['يجب أن تكون درجة الاكت بين 0 و36'];
                 }
                 if (BrainStandard.Talent && !inRange(BrainStandard.Talent, 0, 2000)) {
                     errors["Talent"] = ['يجب أن تكون درجة التالنت بين 0 و2000'];
                 }
-                if (BrainStandard.AchievementTest && !inRange(BrainStandard.AchievementTest, 0, 100)) {
-                    errors["AchievementTest"] = ['يجب أن تكون درجة الاختبار التحصيلي بين 0 و100'];
+                if (BrainStandard.AchivementTest && !inRange(BrainStandard.AchivementTest, 0, 100)) {
+                    errors["AchivementTest"] = ['يجب أن تكون درجة الاختبار التحصيلي بين 0 و100'];
                 }
 
                 if (BrainStandard.SAAT && !inRange(BrainStandard.SAAT, 0, 100)) {

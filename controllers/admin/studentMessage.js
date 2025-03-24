@@ -14,7 +14,7 @@ const studentMessage = async (req, res) => {
         const { _id, message } = req.body;
         let student = await Student.findById({ _id: _id });
         if(!student) 
-            return sendResponse(res, 404, "الطالب غير موجود");
+            return sendResponse(res, 404, "الحساب غير موجود");
         if(message.trim().length === 0)
             return sendResponse(res, 404, "حقل الرسالة لا يمكن أن يكون فارغًا");
         const mail = { mailService: process.env.SYSTEM_SERVICE_NODEMAILER, mailHost: process.env.SYSTEM_HOST_NODEMAILER, mailPort: Number(process.env.SYSTEM_PORT_NODEMAILER), mailAddress: process.env.SYSTEM_EMAIL_NODEMAILER, mailPassword: process.env.SYSTEM_PASS_NODEMAILER }

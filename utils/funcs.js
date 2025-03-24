@@ -2,18 +2,25 @@
 // Utility functions for various validations
 
 // Checks if a number is within a specified range.
-const inRange = (x, min, max) => {
-  return (x >= min && x <= max);
-};
+const inRange = (x, min, max) => (x >= min && x <= max);
 
-/**
-* Validates if a given date string matches the 'YYYY-MM-DD' format.
-* @param {string} dateString - The date string to validate.
-* @returns {boolean} True if the date string is valid, false otherwise.
-*/
-function isValidDate(dateString) {
-  const regex = /^\d{4}-\d{2}-\d{2}$/;
-  return regex.test(dateString);
-}
+const isRequired = (value) => value !== undefined && value !== null && value !== "";
 
-module.exports = { inRange, isValidDate };
+const isString = (value) =>  typeof value === "string";
+
+const isBoolean = (value) => typeof value === "boolean";
+
+const isMinLength = (value, min) => value.trim().length >= min;
+
+const matchesRegex = (value, pattern) => pattern.test(value);
+
+const isInList = (value, list) => list.includes(value);
+
+const isArray = (value) => Array.isArray(value) && value.length > 0;
+
+const isMinArrayLength = (value, min) => isArray(value) && value.length >= min;
+
+const isConfirmed = (value, confirmValue) => value.trim() === confirmValue.trim();
+
+
+module.exports = {isRequired, isString, isBoolean, isMinLength, matchesRegex, isInList, isArray, isMinArrayLength, isConfirmed, inRange };

@@ -61,7 +61,7 @@ const Helper = require("../models/Helper");
 
 // Import Utilities
 const sendResponse = require("../utils/sendResponse");
-const { inRange, isValidDate } = require("../utils/funcs");
+const { inRange, matchesRegex } = require("../utils/funcs");
 
 /**
  * Middleware for additional chance validation.
@@ -69,7 +69,7 @@ const { inRange, isValidDate } = require("../utils/funcs");
  */
 module.exports = async (req, res, next) => {
     try {
-        // Extract request data
+        // ExtrACT request data
         const data = req.body;
         const errors = {};
 
@@ -79,8 +79,10 @@ module.exports = async (req, res, next) => {
         const chanceSubcategories = helper.chanceSubcategories;
         const applicantEdus = helper.applicantEdus;
         const programStatusArr = ["حضوري", "عن بعد"];
-        const IELTSDegrees = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, "0", "0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5", "5.5", "6", "6.5", "7", "7.5", "8", "8.5", "9"]
-        const CEFRDegrees = ["A1", "A2", "B1", "B2", "C1", "C2"];
+        const IELTSs = [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, "0", "0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5", "5.5", "6", "6.5", "7", "7.5", "8", "8.5", "9"]
+        const AmericanDiplomaDegrees = [0, 0.25, 0.5, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4, "0", "0.25", "0.5", "0.75", "1", "1.25", "1.5", "1.75", "2", "2.25", "2.5", "2.75", "3", "3.25", "3.5", "3.75", "4"]
+        
+        const CEFRs = ["A1", "A2", "B1", "B2", "C1", "C2"];
 
         // Validate chance price
         if (data.chancePrice && isNaN(data.chancePrice)) {
@@ -91,13 +93,10 @@ module.exports = async (req, res, next) => {
         }
 
         // Validate chance start and end dates
-
-        if (!isValidDate(data.chanceRegStartDate) || !isValidDate(data.chanceRegEndDate) || !isValidDate(data.chanceStartDate) || !isValidDate(data.chanceEndDate)) {
+        if (!matchesRegex(data.chanceRegStartDate, /^\d{4}-\d{2}-\d{2}$/) || !matchesRegex(data.chanceRegEndDate, /^\d{4}-\d{2}-\d{2}$/)  || !matchesRegex(data.chanceStartDate, /^\d{4}-\d{2}-\d{2}$/) || !matchesRegex(data.chanceEndDate, /^\d{4}-\d{2}-\d{2}$/)) {
             errors["chanceDate"] = ["يجب أن يكون التاريخ صالح لبداية ونهاية تسجيل الفرصة وكذلك لبداية ونهاية دورة الفرصة"];
         }
-        if (new Date(data.chanceRegStartDate) < new Date(moment(Date.now()).format('MM/DD/YYYY'))) {
-            errors["chanceRegStartDate"] = ['لا يمكن أن يكون ميعاد بداية تسجيل الفرصة أقل من تاريخ اليوم'];
-        }
+       
         if (new Date(data.chanceRegEndDate) < new Date(data.chanceRegStartDate)) {
             errors["chanceRegEndDate"] = ['لا يمكن أن يكون ميعاد نهاية تسجيل الفرصة أقل من تاريخ ميعاد بداية تسجيل الفرصة'];
         }
@@ -118,11 +117,6 @@ module.exports = async (req, res, next) => {
         if (!chanceSubcategories.includes(data.chanceSubcategory)) {
             errors["chanceSubcategory"] = ['يجب أن يكون التصنيف الفرعي صحيحًا'];
         }
-
-        // Validate chance image (base64 format)
-        // if (data.chanceImage && !/^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/.test(data.chanceImage)) {
-        //     errors["chanceImage"] = ['ملف الصورة يجب أن يكون صحيحًا'];
-        // }
 
         // Validate chancePriority
         if (!["saudi", "all"].includes(data.chancePriority))
@@ -168,7 +162,7 @@ module.exports = async (req, res, next) => {
             errors["EnglishStandard"] = ["يجب أن يكون معيار اللغة الإنجليزية صحيحًا"];
         } else {
             // Define the properties to check
-            const propertiesToCheck = ["IELTSDegree", "TOFELDegree", "TOEICDegree", "DUOLINGODegree", "stepDegree", "CEFRDegree"];
+            const propertiesToCheck = ["IELTS", "TOEFL", "TOEIC", "DUOLINGO", "STEP", "CEFR"];
 
             // Check if the object contains at least one of the properties
             const hasProperty = propertiesToCheck.some(prop => data.EnglishStandard.hasOwnProperty(prop));
@@ -179,23 +173,23 @@ module.exports = async (req, res, next) => {
             }
 
             // Validate English standards
-            if (data.EnglishStandard.IELTSDegree && !IELTSDegrees.includes(data.EnglishStandard.IELTSDegree)) {
-                errors["IELTSDegree"] = ['يجب أن تكون درجة الأيلتس بين 0 و9'];
+            if (data.EnglishStandard.IELTS && !IELTSs.includes(data.EnglishStandard.IELTS)) {
+                errors["IELTS"] = ['يجب أن تكون درجة الأيلتس بين 0 و9'];
             }
-            if (data.EnglishStandard.TOFELDegree && !inRange(data.EnglishStandard.TOFELDegree, 0, 120)) {
-                errors["TOFELDegree"] = ['يجب أن تكون درجة التويفل بين 0 و120'];
+            if (data.EnglishStandard.TOEFL && !inRange(data.EnglishStandard.TOEFL, 0, 120)) {
+                errors["TOEFL"] = ['يجب أن تكون درجة التويفل بين 0 و120'];
             }
-            if (data.EnglishStandard.TOEICDegree && !inRange(data.EnglishStandard.TOEICDegree, 0, 990)) {
-                errors["TOEICDegree"] = ['يجب أن تكون درجة التويك بين 0 و990'];
+            if (data.EnglishStandard.TOEIC && !inRange(data.EnglishStandard.TOEIC, 0, 990)) {
+                errors["TOEIC"] = ['يجب أن تكون درجة التويك بين 0 و990'];
             }
-            if (data.EnglishStandard.DUOLINGODegree && !inRange(data.EnglishStandard.DUOLINGODegree, 0, 160)) {
-                errors["DUOLINGODegree"] = ['يجب أن تكون درجة الدولينجو بين 0 و160'];
+            if (data.EnglishStandard.DUOLINGO && !inRange(data.EnglishStandard.DUOLINGO, 0, 160)) {
+                errors["DUOLINGO"] = ['يجب أن تكون درجة الدولينجو بين 0 و160'];
             }
-            if (data.EnglishStandard.stepDegree && !inRange(data.EnglishStandard.stepDegree, 0, 100)) {
-                errors["stepDegree"] = ['يجب أن تكون درجة الاستب بين 0 و100'];
+            if (data.EnglishStandard.STEP && !inRange(data.EnglishStandard.STEP, 0, 100)) {
+                errors["STEP"] = ['يجب أن تكون درجة الاستب بين 0 و100'];
             }
-            if (data.EnglishStandard.CEFRDegree && !CEFRDegrees.includes(data.EnglishStandard.CEFRDegree)) {
-                errors["CEFRDegree"] = ['يجب أن يكون معيار السيفر صحيحًا'];
+            if (data.EnglishStandard.CEFR && !CEFRs.includes(data.EnglishStandard.CEFR)) {
+                errors["CEFR"] = ['يجب أن يكون معيار السيفر صحيحًا'];
             }
         }
 
@@ -204,7 +198,7 @@ module.exports = async (req, res, next) => {
             errors["BrainStandard"] = ["يجب أن يكون معيار القدرات العقلية صحيحًا"];
         } else {
             // Define the properties to check
-            const propertiesToCheck = ["Sat", "Qudrat", "GAT", "act", "Talent", "AchievementTest", "SAAT"];
+            const propertiesToCheck = ["Sat", "Qudrat", "GAT", "ACT", "Talent", "AchivementTest", "SAAT"];
 
             // Check if the object contains at least one of the properties
             const hasProperty = propertiesToCheck.some(prop => data.BrainStandard.hasOwnProperty(prop));
@@ -223,14 +217,14 @@ module.exports = async (req, res, next) => {
             if (data.BrainStandard.GAT && !inRange(data.BrainStandard.GAT, 0, 100)) {
                 errors["GAT"] = ['يجب أن تكون درجة الجات بين 0 و100'];
             }
-            if (data.BrainStandard.act && !inRange(data.BrainStandard.act, 0, 36)) {
-                errors["act"] = ['يجب أن تكون درجة الاكت بين 0 و36'];
+            if (data.BrainStandard.ACT && !inRange(data.BrainStandard.ACT, 0, 36)) {
+                errors["ACT"] = ['يجب أن تكون درجة الاكت بين 0 و36'];
             }
             if (data.BrainStandard.Talent && !inRange(data.BrainStandard.Talent, 0, 2000)) {
                 errors["Talent"] = ['يجب أن تكون درجة التالنت بين 0 و2000'];
             }
-            if (data.BrainStandard.AchievementTest && !inRange(data.BrainStandard.AchievementTest, 0, 100)) {
-                errors["AchievementTest"] = ['يجب أن تكون درجة الاختبار التحصيلي بين 0 و100'];
+            if (data.BrainStandard.AchivementTest && !inRange(data.BrainStandard.AchivementTest, 0, 100)) {
+                errors["AchivementTest"] = ['يجب أن تكون درجة الاختبار التحصيلي بين 0 و100'];
             }
 
             if (data.BrainStandard.SAAT && !inRange(data.BrainStandard.SAAT, 0, 100)) {
@@ -260,7 +254,7 @@ module.exports = async (req, res, next) => {
             if (data.CurStandard.BritishCur && !inRange(data.CurStandard.BritishCur, 0, 100)) {
                 errors["BritishCur"] = ['يجب أن تكون درجة المنهج البريطاني بين 0 و100'];
             }
-            if (data.CurStandard.AmericanDiploma && !inRange(data.CurStandard.AmericanDiploma, 0, 4)) {
+            if (data.CurStandard.AmericanDiploma && !AmericanDiplomaDegrees.includes(data.CurStandard.AmericanDiploma)) {
                 errors["AmericanDiploma"] = ['يجب أن تكون درجة الدبلومة الأمريكية بين 0 و4'];
             }
         }

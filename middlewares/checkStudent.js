@@ -25,7 +25,7 @@ module.exports = async (req, res, next) => {
         const student = await Student.findById(decoded._id);
         if (!student) {
             // If the student does not exist, return an error response
-            return sendResponse(res, 401, "الطالب غير موجود في قاعدة البيانات");
+            return sendResponse(res, 401, "الحساب غير موجود في قاعدة البيانات");
         }
 
         // Attach the decoded user data to the request object

@@ -14,7 +14,7 @@ const chanceValidation = async (req, res, next) => {
     try {
         // Define validation rules for chance fields
         const validationRule = {
-            "chanceName": "required|string|min:6",
+            "chanceName": "required|string|min:4",
             "chanceLink": "url",
             "chancePrice": "string",
             "chanceImage": "string",
@@ -23,7 +23,7 @@ const chanceValidation = async (req, res, next) => {
             "chanceCategory": "required|string",
             "chanceSubcategory": "required|string",
             "marketingDesc": "required|string",
-            "chanceDesc": "required|string|min:50|max:255",
+            "chanceDesc": "required|string|min:15|max:2000",
             "chanceRegStartDate": "required|string",
             "chanceRegEndDate": "required|string",
             "chanceStartDate": "required|string",
@@ -32,8 +32,8 @@ const chanceValidation = async (req, res, next) => {
             "applicantEdus": "required|array|min:1",
             "cities": "array",
             "applicantGender": "required|string",
-            "documentsContent": "required|string",
-            "notesContent": "required|string",
+            "documentsContent": "string",
+            "notesContent": "required|string|min:15|max:2000",
         };
 
         // Perform validation using the provided rules

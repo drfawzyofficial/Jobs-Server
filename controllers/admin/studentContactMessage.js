@@ -18,7 +18,7 @@ const sendContactMessage = async (req, res) => {
             return sendResponse(res, 404, "جهه التواصل غير موجودة");
         let student = await Student.findById({ _id: contact._studentID });
         if (!student)
-            return sendResponse(res, 404, "الطالب غير موجود");
+            return sendResponse(res, 404, "الحساب غير موجود");
         if (!message || typeof (message) !== "string" || message.trim().length === 0 || message.trim().length < 100 || message.trim().length > 500)
             return sendResponse(res, 400, "حقل الرسالة يجب أن يكون بين 100 و500 أحرف");
         const mail = { mailService: process.env.SYSTEM_SERVICE_NODEMAILER, mailHost: process.env.SYSTEM_HOST_NODEMAILER, mailPort: Number(process.env.SYSTEM_PORT_NODEMAILER), mailAddress: process.env.SYSTEM_EMAIL_NODEMAILER, mailPassword: process.env.SYSTEM_PASS_NODEMAILER }

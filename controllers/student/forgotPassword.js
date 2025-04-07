@@ -56,14 +56,14 @@ const forgotPassword = async (req, res) => {
         const content = {
             subject: "طلب استعادة كلمة السر",
             title: "منصة خطط",
-            message: `الكود الخاص بك هو ${generatedCode}. لاحظ أن الكود صالح لمدة ساعة واحدة فقط`
+            message: `الرمز الخاص بك هو ${generatedCode}. لاحظ أن الرمز صالح لمدة ساعة واحدة فقط`
         };
 
         // Send verification code via email
         await sendEmail(mail, student, content);
 
         // Send success response
-        return sendResponse(res, 200, "تم إرسال الكود بنجاح، يرجى التحقق من بريدك الإلكتروني أو الهاتف");
+        return sendResponse(res, 200, "تم إرسال الرمز بنجاح، يرجى التحقق من بريدك الإلكتروني أو الهاتف");
     } catch (err) {
         // Log the error for debugging and send error response
         console.error("Error in forgotPassword:", err.message);

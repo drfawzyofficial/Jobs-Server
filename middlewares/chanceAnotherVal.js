@@ -198,7 +198,7 @@ module.exports = async (req, res, next) => {
             errors["BrainStandard"] = ["يجب أن يكون معيار القدرات العقلية صحيحًا"];
         } else {
             // Define the properties to check
-            const propertiesToCheck = ["Sat", "Qudrat", "GAT", "ACT", "Talent", "AchivementTest", "SAAT"];
+            const propertiesToCheck = ["SAT", "Qudrat", "GAT", "ACT", "Talent", "AchivementTest", "SAAT"];
 
             // Check if the object contains at least one of the properties
             const hasProperty = propertiesToCheck.some(prop => data.BrainStandard.hasOwnProperty(prop));
@@ -208,8 +208,8 @@ module.exports = async (req, res, next) => {
                 errors["BrainStandard"] = ['يجب أن يحتوى معيار القدرات العقلية على إحدى خصائها'];
             }
             // Validate Brain standards
-            if (data.BrainStandard.Sat && !inRange(data.BrainStandard.Sat, 0, 1600)) {
-                errors["Sat"] = ['يجب أن تكون درجة الـ Sat بين 0 و1600'];
+            if (data.BrainStandard.SAT && !inRange(data.BrainStandard.SAT, 0, 1600)) {
+                errors["SAT"] = ['يجب أن تكون درجة الـ SAT بين 0 و1600'];
             }
             if (data.BrainStandard.Qudrat && !inRange(data.BrainStandard.Qudrat, 0, 100)) {
                 errors["Qudrat"] = ['يجب أن تكون درجة الكودرات بين 0 و100'];

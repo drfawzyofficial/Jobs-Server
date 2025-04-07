@@ -23,13 +23,13 @@ const submitCode = async (req, res) => {
         // Find the code associated with the student's ID
         const code = await Code.findOne({ _studentID: req.user._id, for: "Signup" });
         if (!code) {
-            return sendResponse(res, 400, "تم انتهاء صلاحية الكود");
+            return sendResponse(res, 400, "تم انتهاء صلاحية الرمز");
         }
 
         // Check if the provided code matches the stored code
         const isMatch = await code.checkCode(req.body.code);
         if (!isMatch) {
-            return sendResponse(res, 400, "الكود غير متطابق");
+            return sendResponse(res, 400, "الرمز غير متطابق");
         }
 
         // Update the student's verification status and delete the used code

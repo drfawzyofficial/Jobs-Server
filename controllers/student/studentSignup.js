@@ -85,6 +85,18 @@ const studentSignup = async (req, res) => {
         var EnglishStandard = req.body.EnglishStandard;
         var BrainStandard = req.body.BrainStandard;
 
+        const email_found = await Student.findOne({ email: email });
+
+        const phone_found = await Student.findOne({ phone: phone });
+
+        if(email_found)
+            errors["email_found"] = ["البريد الإلكتروني موجود سابقًا"];
+
+        if(phone_found)
+            errors["phone_found"] = ["رقم الهاتف موجود سابقًا"];
+
+
+
         const helper = await Helper.findById(process.env.HELPER_ID);
 
         if (!isRequired(first_name) || !isString(first_name) || !isMinLength(first_name, 2)) {
@@ -192,13 +204,13 @@ const studentSignup = async (req, res) => {
         }
 
         if (tookBrainTest === false) {
-            BrainStandard = { Sat: '', Qudrat: '', GAT: '', ACT: '', Talent: '', AchivementTest: '', SAAT: '' };
+            BrainStandard = { SAT: '', Qudrat: '', GAT: '', ACT: '', Talent: '', AchivementTest: '', SAAT: '' };
         } else {
             if (!BrainStandard)
                 errors["BrainStandard"] = ["يجب أن يكون معيار القدرات العقلية صحيحًا"];
             else {
                 // Define the properties to check
-                const propertiesToCheck = ["Sat", "Qudrat", "GAT", "ACT", "Talent", "AchivementTest", "SAAT"];
+                const propertiesToCheck = ["SAT", "Qudrat", "GAT", "ACT", "Talent", "AchivementTest", "SAAT"];
 
                 // Check if the object contains at least one of the properties
                 const hasProperty = propertiesToCheck.some(prop => BrainStandard.hasOwnProperty(prop));
@@ -208,11 +220,11 @@ const studentSignup = async (req, res) => {
                     errors["BrainStandard"] = ['يجب أن يحتوى معيار القدرات العقلية على إحدى خصائها'];
                 }
                 // Validate Brain standards
-                if (BrainStandard.Sat && !inRange(BrainStandard.Sat, 0, 1600)) {
-                    errors["Sat"] = ['يجب أن تكون درجة الـ Sat بين 0 و1600'];
+                if (BrainStandard.SAT && !inRange(BrainStandard.SAT, 0, 1600)) {
+                    errors["SAT"] = ['يجب أن تكون درجة الـ SAT بين 0 و1600'];
                 }
                 if (BrainStandard.Qudrat && !inRange(BrainStandard.Qudrat, 0, 100)) {
-                    errors["Qudrat"] = ['يجب أن تكون درجة الكودرات بين 0 و100'];
+                    errors["Qudrat"] = ['يجب أن تكون درجة الرمزرات بين 0 و100'];
                 }
                 if (BrainStandard.GAT && !inRange(BrainStandard.GAT, 0, 100)) {
                     errors["GAT"] = ['يجب أن تكون درجة الجات بين 0 و100'];
@@ -280,7 +292,7 @@ const studentSignup = async (req, res) => {
         const content = {
             subject: "تأكيد البريد الإلكتروني",
             title: "منصة الفرص",
-            message: `الكود الخاص بك هو ${generatedCode}. لاحظ أن الكود صالح فقط لمدة ساعة واحدة `
+            message: `الرمز الخاص بك هو ${generatedCode}. لاحظ أن الرمز صالح فقط لمدة ساعة واحدة `
         };
 
         // Send verification code via email

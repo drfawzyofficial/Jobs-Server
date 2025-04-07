@@ -64,7 +64,7 @@ const resetPasswordChange = async (req, res) => {
 
         // Validate the provided code
         if (!code || code.trim().length === 0) {
-            return sendResponse(res, 400, "حقل الكود المرسل مطلوب");
+            return sendResponse(res, 400, "حقل الرمز المرسل مطلوب");
         }
 
         // Check if the passwords match
@@ -78,13 +78,13 @@ const resetPasswordChange = async (req, res) => {
         // Find the code associated with the student
         const sent_code = await Code.findOne({ _studentID: student._id, for: "ResetPassword" });
         if (!sent_code) {
-            return sendResponse(res, 401, "تم انتهاء صلاحية الكود");
+            return sendResponse(res, 401, "تم انتهاء صلاحية الرمز");
         }
 
         // Verify if the provided code matches the stored code
         const isMatch = await sent_code.checkCode(code);
         if (!isMatch) {
-            return sendResponse(res, 400, "الكود غير متطابق");
+            return sendResponse(res, 400, "الرمز غير متطابق");
         }
 
         // Hash the new password

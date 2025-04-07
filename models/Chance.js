@@ -15,7 +15,7 @@ const EnglishStandardSchema = new Schema({
   CEFR: { type: String, enum: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', ""] }
 }, { _id: false });
 const BrainStandardSchema = new Schema({
-  Sat: { type: Number, min: 0, max: 1600 },
+  SAT: { type: Number, min: 0, max: 1600 },
   Qudrat: { type: Number, min: 0, max: 100 },
   GAT: { type: Number, min: 0, max: 100 },
   ACT: { type: Number, min: 1, max: 36 },

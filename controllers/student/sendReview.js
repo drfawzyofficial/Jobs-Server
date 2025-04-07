@@ -19,7 +19,7 @@ const sendReview = async (req, res, next) => {
             "الفرصة غير موجودة"
         );
 
-        if (typeof(comment) !== "string" || comment.trim().length < 100 || comment.trim().length > 300)
+        if (typeof(comment) !== "string" || comment.trim().length < 15 || comment.trim().length > 2000)
             return sendResponse(
                 res,
                 400,

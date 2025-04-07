@@ -10,12 +10,12 @@ const validateMessage = (message) => {
         return { isValid: false, message: 'حقل الرسالة إجباري' };
     }
 
-    if (message.length < 100) {
-        return { isValid: false, message: 'يجب أن تكون الرسالة 100 حرف على الأقل' };
+    if (message.length < 15) {
+        return { isValid: false, message: 'يجب أن تكون الرسالة 15 حرف على الأقل' };
     }
 
-    if (message.length > 500) {
-        return { isValid: false, message: 'لا يمكن أن تتجاوز الرسالة 500 حرف' };
+    if (message.length > 2000) {
+        return { isValid: false, message: 'لا يمكن أن تتجاوز الرسالة 2000 حرف' };
     }
 
     return { isValid: true, message: 'الرسالة صالحة' };
@@ -49,7 +49,7 @@ const createContact = async (req, res, next) => {
         return sendResponse(
             res,
             200,
-            'تم إرسال مشكلتك بنجاح إلى المسؤول . شكرًا لتواصلك معنا',
+            'تم إرسال مشكلتك بنجاح إلى المسؤول. شكرًا لتواصلك معنا.',
             contact
         );
     } catch (err) {

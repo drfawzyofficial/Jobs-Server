@@ -139,8 +139,7 @@ const chanceSchema = new Schema(
     //   },
     // },
     applicantAge: {
-      type: String,
-      required: [true, "applicantAge is required"],
+      type: String
     },
     applicantEdus: {
       type: Array,

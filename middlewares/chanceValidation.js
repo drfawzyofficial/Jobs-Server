@@ -28,12 +28,12 @@ const chanceValidation = async (req, res, next) => {
             "chanceRegEndDate": "required|string",
             "chanceStartDate": "required|string",
             "chanceEndDate": "required|string",
-            "applicantAge": "required|string",
+            "applicantAge": "string",
             "applicantEdus": "required|array|min:1",
             "cities": "array",
             "applicantGender": "required|string",
             "documentsContent": "string",
-            "notesContent": "required|string|min:15|max:2000",
+            "notesContent": "string",
         };
 
         // Perform validation using the provided rules

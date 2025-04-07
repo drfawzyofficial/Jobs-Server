@@ -16,7 +16,7 @@ const chanceRemove = async (req, res) => {
             return sendResponse(res, 404, "الفرصة غير موجودة");
          chance = await Chance.findByIdAndRemove({ _id: req.body._id });
         await Review.deleteMany({ _chanceID: req.body._id });
-        return sendResponse(res, 200, "تم حذف الوظيفة بنجاح", chance);
+        return sendResponse(res, 200, "تم حذف الفرصة بنجاح", chance);
     } catch (err) {
         return sendResponse(res, 500, err.message, "حدث خطأ في خادم السيرفر");
     }

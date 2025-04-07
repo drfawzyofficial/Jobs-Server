@@ -50,7 +50,7 @@ const updateAvatar = (req, res, next) => {
 
     // Check if a file was uploaded
     if (!req.file) {
-      return sendResponse(res, 400, 'برجاء رفع صورة');
+      return sendResponse(res, 400, 'الرجاء رفع صورة');
     }
 
     // Proceed to the next middleware or route handler

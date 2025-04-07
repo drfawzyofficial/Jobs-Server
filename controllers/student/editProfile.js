@@ -155,19 +155,19 @@ const editProfile = async (req, res) => {
                     errors["IELTS"] = ['يجب أن تكون درجة الأيلتس بين 0 و9'];
                 }
                 if (EnglishStandard.TOEFL && !inRange(EnglishStandard.TOEFL, 0, 120)) {
-                    errors["TOEFL"] = ['يجب أن تكون درجة التويفل بين 0 و120'];
+                    errors["TOEFL"] = ['يجب أن تكون درجة الـ TOEFL بين 0 و120'];
                 }
                 if (EnglishStandard.TOEIC && !inRange(EnglishStandard.TOEIC, 0, 990)) {
-                    errors["TOEIC"] = ['يجب أن تكون درجة التويك بين 0 و990'];
+                    errors["TOEIC"] = ['يجب أن تكون درجة الـ TOEIC بين 0 و990'];
                 }
                 if (EnglishStandard.DUOLINGO && !inRange(EnglishStandard.DUOLINGO, 0, 160)) {
-                    errors["DUOLINGO"] = ['يجب أن تكون درجة الدولينجو بين 0 و160'];
+                    errors["DUOLINGO"] = ['يجب أن تكون درجة الـ DUOLINGO بين 0 و160'];
                 }
                 if (EnglishStandard.STEP && !inRange(EnglishStandard.STEP, 0, 100)) {
-                    errors["STEP"] = ['يجب أن تكون درجة الاستب بين 0 و100'];
+                    errors["STEP"] = ['يجب أن تكون درجة الـ STEP بين 0 و100'];
                 }
                 if (EnglishStandard.CEFR && !CEFRs.includes(EnglishStandard.CEFR)) {
-                    errors["CEFR"] = ['يجب أن يكون معيار السيفر صحيحًا'];
+                    errors["CEFR"] = ['يجب أن يكون درجة الـ CEFR صحيحًا'];
                 }
             }
 
@@ -194,21 +194,20 @@ const editProfile = async (req, res) => {
                     errors["SAT"] = ['يجب أن تكون درجة الـ SAT بين 0 و1600'];
                 }
                 if (BrainStandard.Qudrat && !inRange(BrainStandard.Qudrat, 0, 100)) {
-                    errors["Qudrat"] = ['يجب أن تكون درجة الرمزرات بين 0 و100'];
+                    errors["Qudrat"] = ['يجب أن تكون درجةالقدرات بين 0 و100'];
                 }
                 if (BrainStandard.GAT && !inRange(BrainStandard.GAT, 0, 100)) {
-                    errors["GAT"] = ['يجب أن تكون درجة الجات بين 0 و100'];
+                    errors["GAT"] = ['يجب أن تكون درجة الـ GAT بين 0 و100'];
                 }
                 if (BrainStandard.ACT && !inRange(BrainStandard.ACT, 0, 36)) {
-                    errors["ACT"] = ['يجب أن تكون درجة الاكت بين 0 و36'];
+                    errors["ACT"] = ['يجب أن تكون درجة الـ ACT بين 0 و36'];
                 }
                 if (BrainStandard.Talent && !inRange(BrainStandard.Talent, 0, 2000)) {
-                    errors["Talent"] = ['يجب أن تكون درجة التالنت بين 0 و2000'];
+                    errors["Talent"] = ['يجب أن تكون درجة مقياس موهبة بين 0 و2000'];
                 }
                 if (BrainStandard.AchivementTest && !inRange(BrainStandard.AchivementTest, 0, 100)) {
                     errors["AchivementTest"] = ['يجب أن تكون درجة الاختبار التحصيلي بين 0 و100'];
                 }
-
                 if (BrainStandard.SAAT && !inRange(BrainStandard.SAAT, 0, 100)) {
                     errors["SAAT"] = ['يجب أن تكون درجة الـ SAAT بين 0 و100'];
                 }

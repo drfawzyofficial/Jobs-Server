@@ -150,7 +150,7 @@ const studentSchema = new Schema(
         validator: function (v) {
           return v && v.length >= 3;
         },
-        message: 'برجاء اختر 3 اهتمامات على الأقل'
+        message: 'الرجاء اختر 3 اهتمامات على الأقل'
       }
     },
     Subinterests: {
@@ -160,7 +160,7 @@ const studentSchema = new Schema(
         validator: function (v) {
           return v && v.length >= 3;
         },
-        message: 'برجاء اختر 3 اهتمامات على الأقل'
+        message: 'الرجاء اختر 3 اهتمامات على الأقل'
       }
     },
     avatar: {

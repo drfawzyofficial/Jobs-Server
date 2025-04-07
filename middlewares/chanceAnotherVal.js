@@ -145,8 +145,11 @@ module.exports = async (req, res, next) => {
         if (allItemsExist == false)
             errors["applicantEdus"] = ['يجب أن تكون المرحلة التعليمية صحيحة'];
 
-        if (!inRange(data.applicantAge, 18, 60)) {
-            errors["applicantAge"] = ['يجب أن يكون العمر بين الـ 18 و60'];
+
+        if(data.applicantAge) {
+            if (!inRange(data.applicantAge, 18, 60)) {
+                errors["applicantAge"] = ['يجب أن يكون العمر بين الـ 18 و60'];
+            }
         }
 
         // if (!applicantNats.includes(data.applicantNat)) {
@@ -154,7 +157,7 @@ module.exports = async (req, res, next) => {
         // }
 
         if (!["ذكر", "أنثى", "كلاهما"].includes(data.applicantGender)) {
-            errors["applicantGender"] = ['يجب أن يكون الجنس صحيح'];
+            errors["applicantGender"] = ['يجب أن يكون الجنس صحيحًا'];
         }
 
         // EnglishStandard Object is mandatory 
@@ -174,22 +177,22 @@ module.exports = async (req, res, next) => {
 
             // Validate English standards
             if (data.EnglishStandard.IELTS && !IELTSs.includes(data.EnglishStandard.IELTS)) {
-                errors["IELTS"] = ['يجب أن تكون درجة الأيلتس بين 0 و9'];
+                errors["IELTS"] = ['يجب أن تكون درجة الـ IELTS بين 0 و9'];
             }
             if (data.EnglishStandard.TOEFL && !inRange(data.EnglishStandard.TOEFL, 0, 120)) {
-                errors["TOEFL"] = ['يجب أن تكون درجة التويفل بين 0 و120'];
+                errors["TOEFL"] = ['يجب أن تكون درجة الـ TOEFL بين 0 و120'];
             }
             if (data.EnglishStandard.TOEIC && !inRange(data.EnglishStandard.TOEIC, 0, 990)) {
-                errors["TOEIC"] = ['يجب أن تكون درجة التويك بين 0 و990'];
+                errors["TOEIC"] = ['يجب أن تكون درجة الـ TOEIC بين 0 و990'];
             }
             if (data.EnglishStandard.DUOLINGO && !inRange(data.EnglishStandard.DUOLINGO, 0, 160)) {
-                errors["DUOLINGO"] = ['يجب أن تكون درجة الدولينجو بين 0 و160'];
+                errors["DUOLINGO"] = ['يجب أن تكون درجة الـ DUOLINGO بين 0 و160'];
             }
             if (data.EnglishStandard.STEP && !inRange(data.EnglishStandard.STEP, 0, 100)) {
-                errors["STEP"] = ['يجب أن تكون درجة الاستب بين 0 و100'];
+                errors["STEP"] = ['يجب أن تكون درجة الـ STEP بين 0 و100'];
             }
             if (data.EnglishStandard.CEFR && !CEFRs.includes(data.EnglishStandard.CEFR)) {
-                errors["CEFR"] = ['يجب أن يكون معيار السيفر صحيحًا'];
+                errors["CEFR"] = ['يجب أن يكون درجة الـ CEFR صحيحًا'];
             }
         }
 
@@ -212,16 +215,16 @@ module.exports = async (req, res, next) => {
                 errors["SAT"] = ['يجب أن تكون درجة الـ SAT بين 0 و1600'];
             }
             if (data.BrainStandard.Qudrat && !inRange(data.BrainStandard.Qudrat, 0, 100)) {
-                errors["Qudrat"] = ['يجب أن تكون درجة الكودرات بين 0 و100'];
+                errors["Qudrat"] = ['يجب أن تكون درجة القدرات بين 0 و100'];
             }
             if (data.BrainStandard.GAT && !inRange(data.BrainStandard.GAT, 0, 100)) {
-                errors["GAT"] = ['يجب أن تكون درجة الجات بين 0 و100'];
+                errors["GAT"] = ['يجب أن تكون درجة الـ GAT بين 0 و100'];
             }
             if (data.BrainStandard.ACT && !inRange(data.BrainStandard.ACT, 0, 36)) {
-                errors["ACT"] = ['يجب أن تكون درجة الاكت بين 0 و36'];
+                errors["ACT"] = ['يجب أن تكون درجة الـ ACT بين 0 و36'];
             }
             if (data.BrainStandard.Talent && !inRange(data.BrainStandard.Talent, 0, 2000)) {
-                errors["Talent"] = ['يجب أن تكون درجة التالنت بين 0 و2000'];
+                errors["Talent"] = ['يجب أن تكون درجة مقياس موهبة بين 0 و2000'];
             }
             if (data.BrainStandard.AchivementTest && !inRange(data.BrainStandard.AchivementTest, 0, 100)) {
                 errors["AchivementTest"] = ['يجب أن تكون درجة الاختبار التحصيلي بين 0 و100'];

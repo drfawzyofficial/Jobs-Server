@@ -31,7 +31,7 @@ module.exports = async (req, res, next) => {
         //         errors["chanceName"] = ['اسم الفرصة لا يجب أن يقل عن 6 أحرف'];
         //     }
         // } else {
-        //     errors["chanceName"] = ['حقل اسم الوظيفة يجب أن يكون اسمًا'];
+        //     errors["chanceName"] = ['حقل اسم الفرصة يجب أن يكون اسمًا'];
         // }
 
         // Validate chance price
@@ -43,7 +43,7 @@ module.exports = async (req, res, next) => {
         //         errors["chancePrice"] = ['لا يمكن أن يكون السعر أقل من الصفر'];
         //     }
         // } else {
-        //     errors["chancePrice"] = ['حقل سعر الوظيفة يجب أن يكون اسمًا'];
+        //     errors["chancePrice"] = ['حقل سعر الفرصة يجب أن يكون اسمًا'];
         // }
 
         // Validate chance start and end dates

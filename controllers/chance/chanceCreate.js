@@ -33,6 +33,7 @@ const chanceCreate = async (req, res) => {
         }
         
         if(req.body.documentsContent === "<p><br></p>") req.body.documentsContent = "";
+        if(req.body.notesContent === "<p><br></p>") req.body.notesContent = "";
 
 
         req.body.noOfClicks = 0;

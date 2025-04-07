@@ -17,7 +17,7 @@ const chanceUpdate = async (req, res) => {
     try {
         let chance = await Chance.findById({ _id: req.body._id });
         if (!chance)
-            return sendResponse(res, 404, "Chance is not found");
+            return sendResponse(res, 404, "الفرصة غير موجودة");
         const chanceRegStartDate = new Date(req.body.chanceRegStartDate);
         const chanceRegEndDate = new Date(req.body.chanceRegEndDate);
         const chanceStartDate = new Date(req.body.chanceStartDate);
@@ -37,7 +37,7 @@ const chanceUpdate = async (req, res) => {
         req.body.chanceStartDate = moment(chanceStartDate).format('YYYY-MM-DD');
         req.body.chanceEndDate = moment(chanceEndDate).format('YYYY-MM-DD');
         chance = await Chance.findByIdAndUpdate({ _id: req.body._id }, req.body, { new: true });
-        return sendResponse(res, 200, "تم تعديل الوظيفة بنجاح", chance);
+        return sendResponse(res, 200, "تم تعديل الفرصة بنجاح", chance);
     } catch (err) {
         return sendResponse(res, 500, err.message, "حدث خطأ في خادم السيرفر");
     }

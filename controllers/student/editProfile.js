@@ -194,7 +194,7 @@ const editProfile = async (req, res) => {
                     errors["SAT"] = ['يجب أن تكون درجة الـ SAT بين 0 و1600'];
                 }
                 if (BrainStandard.Qudrat && !inRange(BrainStandard.Qudrat, 0, 100)) {
-                    errors["Qudrat"] = ['يجب أن تكون درجةالقدرات بين 0 و100'];
+                    errors["Qudrat"] = ['يجب أن تكون درجة القدرات بين 0 و100'];
                 }
                 if (BrainStandard.GAT && !inRange(BrainStandard.GAT, 0, 100)) {
                     errors["GAT"] = ['يجب أن تكون درجة الـ GAT بين 0 و100'];

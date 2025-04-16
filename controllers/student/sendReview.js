@@ -23,7 +23,7 @@ const sendReview = async (req, res, next) => {
             return sendResponse(
                 res,
                 400,
-                "حقل التعليق يجب أن يتراوح بين 100 و500 حرف"
+                "حقل التعليق يجب أن يتراوح بين 15 و500 حرف"
             );
 
 

@@ -56,7 +56,7 @@ const forgotPassword = async (req, res) => {
         const content = {
             subject: "طلب استعادة كلمة السر",
             title: "منصة خطط",
-            message: `الرمز الخاص بك هو ${generatedCode}. لاحظ أن الرمز صالح لمدة ساعة واحدة فقط`
+            message: `الرمز الخاص بك هو ${generatedCode}. لاحظ أن الرمز صالح لمدة ساعة واحدة فقط.`
         };
 
         // Send verification code via email

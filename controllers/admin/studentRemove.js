@@ -16,7 +16,10 @@ const studentRemove = async (req, res) => {
         let student = await Student.findById({ _id: req.body._id });
         if(!student) 
             return sendResponse(res, 404, "الحساب غير موجود");
-         student = await Student.findByIdAndRemove({ _id: req.body._id });
+        await Review.deleteMany({ _studentID: req.body._id});
+        await Contact.findOneAndDelete({ email: student.email });
+        await Code.deleteMany({ _studentID: req.body._id });
+        await Student.findByIdAndRemove({ _id: req.body._id });
         return sendResponse(res, 200, "تم حذف الطالب بنجاح", student);
     } catch (err) {
         return sendResponse(res, 500, err.message, "حدث خطأ في خادم السيرفر");

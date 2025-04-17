@@ -12,6 +12,8 @@ const isBoolean = (value) => typeof value === "boolean";
 
 const isMinLength = (value, min) => value.trim().length >= min;
 
+const isMaxLength = (value, max) => value.trim().length <= max;
+
 const matchesRegex = (value, pattern) => pattern.test(value);
 
 const isInList = (value, list) => list.includes(value);
@@ -23,4 +25,4 @@ const isMinArrayLength = (value, min) => isArray(value) && value.length >= min;
 const isConfirmed = (value, confirmValue) => value.trim() === confirmValue.trim();
 
 
-module.exports = {isRequired, isString, isBoolean, isMinLength, matchesRegex, isInList, isArray, isMinArrayLength, isConfirmed, inRange };
+module.exports = {isRequired, isString, isBoolean, isMinLength, isMaxLength, matchesRegex, isInList, isArray, isMinArrayLength, isConfirmed, inRange };

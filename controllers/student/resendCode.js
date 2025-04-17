@@ -47,7 +47,7 @@ const resendCode = async (req, res) => {
         };
         const content = {
             subject: "تأكيد البريد الإلكتروني",
-            title: "منصة الفرص",
+            title: "منصة خطط",
               message: `الرمز الخاص بك هو ${generatedCode}. لاحظ أن الرمز صالح لمدة ساعة واحدة فقط.`
         };
 

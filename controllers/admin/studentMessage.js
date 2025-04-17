@@ -18,7 +18,7 @@ const studentMessage = async (req, res) => {
         if(message.trim().length === 0)
             return sendResponse(res, 404, "حقل الرسالة لا يمكن أن يكون فارغًا");
         const mail = { mailService: process.env.SYSTEM_SERVICE_NODEMAILER, mailHost: process.env.SYSTEM_HOST_NODEMAILER, mailPort: Number(process.env.SYSTEM_PORT_NODEMAILER), mailAddress: process.env.SYSTEM_EMAIL_NODEMAILER, mailPassword: process.env.SYSTEM_PASS_NODEMAILER }
-        const content = { subject: "إرسالة رسالة", title: "منصة الفرص", message: message.trim()}
+        const content = { subject: "إرسالة رسالة", title: "منصة خطط", message: message.trim()}
         await sendEmail(mail, student, content);
         return sendResponse(res, 200, "تم إرسال الرسالة بنجاح");
     } catch (err) {

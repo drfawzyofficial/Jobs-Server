@@ -22,7 +22,7 @@ const sendContactMessage = async (req, res) => {
         if (!message || typeof (message) !== "string" || message.trim().length === 0 || message.trim().length < 15 || message.trim().length > 2000)
             return sendResponse(res, 400, "حقل الرسالة يجب أن يكون بين 15 و2000 أحرف");
         const mail = { mailService: process.env.SYSTEM_SERVICE_NODEMAILER, mailHost: process.env.SYSTEM_HOST_NODEMAILER, mailPort: Number(process.env.SYSTEM_PORT_NODEMAILER), mailAddress: process.env.SYSTEM_EMAIL_NODEMAILER, mailPassword: process.env.SYSTEM_PASS_NODEMAILER }
-        const content = { subject: "الرد على الاستفسار", title: "منصة الفرص", message: message.trim()}
+        const content = { subject: `الرد على الاستفسار الخاص بـ: ${ contact.subject }`, title: "منصة خطط", message: message.trim()}
         await sendEmail(mail, student, content);
         await Contact.findByIdAndRemove({ _id: _id});
         return sendResponse(res, 200, "تم إرسال الرسالة بنجاح", contact);

@@ -26,7 +26,7 @@ const getReviews = async (req, res) => {
         const skip = (page_no - 1) * pageSize;
         if (!chance) return sendResponse(res, 401, "الفرصة غير موجودة");
         const reviewsCount = Math.ceil(await Review.find({ _chanceID: mongoose.Types.ObjectId(req.body._chanceID), accepted: true }).count() / 8);
-        const reviews = await Review.aggregate([{ $match: { _chanceID: mongoose.Types.ObjectId(req.body._chanceID), accepted: true } }, { $sample: { size: 12 } },  { $skip: skip }, { $limit: pageSize }]);
+        const reviews = await Review.aggregate([{ $match: { _chanceID: mongoose.Types.ObjectId(req.body._chanceID), accepted: true } }, { $skip: skip }, { $limit: pageSize }]);
         const populatedReviews = await Review.populate(reviews, { path: '_studentID' });
         console.log(populatedReviews);
         return sendResponse(res, 200, "تم استرجاع التقييمات بنجاح", { reviews: populatedReviews, reviewsCount });
